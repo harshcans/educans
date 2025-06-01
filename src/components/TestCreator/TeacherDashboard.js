@@ -151,7 +151,6 @@ const TeacherDashboard = () => {
                       />
                       <i
                         className="fa-solid fa-trash mr-lf-10 icon-link"
-                        onClick={() => deleteUser(index + 1)}
                       />
                     </td>
                   </tr>
