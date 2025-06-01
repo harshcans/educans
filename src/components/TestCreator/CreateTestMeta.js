@@ -43,7 +43,6 @@ const CreateTestMeta = ({closePopup }) => {
               Test_Id: doc.id,
             }));
 
-            setTestsList(testsData);
           } else {
             await auth.signOut();
           }
