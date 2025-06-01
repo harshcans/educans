@@ -1,0 +1,123 @@
+
+
+:root {
+    --text-color: rgb(51, 0, 131);
+    --main-bg: rgb(51, 0, 131);
+}
+
+.form-container {
+  background-color: white;
+  border-radius: 5px;
+  /* box-shadow: 0 0 10px #ebecee; */
+  padding: 37.5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.title {
+    font-size: 25px;
+}
+
+.password-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.label{
+  font-size: 14px;
+}
+.input-card {
+  padding: 10px;
+  width: 60%;
+  border-radius: 5px;
+  border: 2px solid #dddddd ;
+    outline: none;
+    font-family: "Rubik", sans-serif;
+    color: var(--text-color);
+}
+input.input-card:focus {
+  border-color: var(--main-bg);
+}
+.btn-controls {
+  padding: 5px 10px;
+    background-color: var(--text-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition:transform 500ms ease;
+    cursor: pointer;
+    gap:10px;
+    font-weight: bold;
+}
+button{
+  border:0px;
+  color: white;
+  background-color: var(--main-bg);
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+}
+.flex-space-btw{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.list-tests > div{
+  padding: 5px 15px;
+    border-bottom: 1px solid;
+}
+.list-tests{
+  border: 2px solid var(--main-bg);
+    border-radius: 6px;
+}
+.list-tests > div:hover {
+  background: #dddddd;
+  /* cursor: pointer; */
+}
+.button-options{
+  display: flex;
+  align-items: center;
+}
+.button-options > p{
+  font-size: small;
+    background: yellow;
+    border-radius: 5px;
+    margin-right: 10px;
+    padding: 0px 8px;
+}
+.btn-link:hover, .btn-link:hover button{
+  background: #d5bbf7;
+}
+.icon-link{
+  font-size: 20px;
+  cursor: pointer;
+}
+.icon-link:hover{
+  color: var(--main-bg);
+      font-weight: bold;
+}
+
+/* input style ends here  */
+select{
+  border: 2px solid #dddddd;
+    outline: 0;
+    padding: 10px;
+    width: 60%;
+    border-radius: 5px;
+}
+.select4{
+  width: 100%
+}
+.ml-auto{
+  margin-left: auto;
+}
+.select3{
+  border: 1px solid #6C55F9;
+  outline: 0;
+  padding: 10px;
+  width: fit-content;
+  border-radius: 5px;
+  margin-left: 10px
+}

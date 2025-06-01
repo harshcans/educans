@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Visualization & Content Choices:
+    - Welcome & Quick Summary: Goal: Orient User. Method: Text block. Interaction: Static. Justification: Provides immediate context. Library: HTML.
+    - Upcoming Tests Card: Goal: Inform & Action. Method: List of tests (text, dates, countdown). Interaction: "View Details" buttons (simulated navigation/modal), "Start Test" buttons (simulated action). Justification: Prioritizes time-sensitive tasks. Library: HTML/JS for countdown and button actions.
+    - Recent Results Card: Goal: Inform & Review. Method: List of results (text, scores). Interaction: "View Detailed Results" buttons (simulated navigation). Justification: Provides quick feedback. Library: HTML/JS for button actions.
+    - Performance Snapshot Card: Goal: Summarize Progress. Method: Chart.js line chart. Interaction: Visual representation of mock data. Justification: Offers a quick visual summary of performance. Library: Chart.js.
+    - Quick Links Card: Goal: Facilitate Navigation. Method: List of links. Interaction: Clickable links to other (simulated) sections. Justification: Provides shortcuts. Library: HTML/JS for navigation.
+    - Sidebar Navigation: Goal: Global Navigation. Method: Vertical list of links. Interaction: Click to change main content view. Justification: Standard and intuitive dashboard navigation. Library: HTML/JS.
+    - Header Elements (Search, Notifications, Profile): Goal: Utility. Method: Icons and dropdown (profile). Interaction: Search (simulated), Notification display (static mock), Profile dropdown (JS toggle). Justification: Standard dashboard utilities. Library: HTML/JS/Unicode for icons.
+    - CONFIRMATION: All diagrams and charts are implemented using HTML/CSS for structure and Chart.js for the performance chart. No SVG or Mermaid JS is used. Icons are Unicode characters.
+    -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* bg-gray-100 */
+            color: #374151; /* text-gray-800 */
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .app-container {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: 16rem; /* w-64 */
+            background-color: #fff; /* bg-white */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-lg */
+            padding: 1rem; /* p-4 */
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+            z-index: 30;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem; /* space-y-4 */
+        }
+
+        .sidebar.open {
+            transform: translateX(0);
+        }
+
+        @media (min-width: 768px) { /* md: */
+            .sidebar {
+                transform: translateX(0);
+                position: static;
+            }
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem; /* mb-6 */
+        }
+
+        .sidebar-title {
+            font-size: 1.5rem; /* text-2xl */
+            font-weight: 700; /* font-bold */
+            color: #2563eb; /* text-blue-600 */
+        }
+
+        .sidebar-close-btn {
+            display: block; /* md:hidden */
+            color: #4b5563; /* text-gray-600 */
+            cursor: pointer;
+            width: 1.5rem; /* w-6 */
+            height: 1.5rem; /* h-6 */
+        }
+        .sidebar-close-btn:hover {
+            color: #1f2937; /* hover:text-gray-800 */
+        }
+        @media (min-width: 768px) {
+            .sidebar-close-btn {
+                display: none;
+            }
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem; /* space-y-1 */
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 0.625rem 0.75rem; /* px-3 py-2.5 */
+            font-size: 0.875rem; /* text-sm */
+            font-weight: 500; /* font-medium */
+            border-radius: 0.375rem; /* rounded-md */
+            color: #4b5563; /* text-gray-600 */
+            text-decoration: none;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .nav-link:hover {
+            background-color: #f0f9ff; /* hover:bg-blue-50 */
+            color: #0369a1; /* hover:text-blue-700 */
+        }
+
+        .nav-link.active {
+            background-color: #e0f2fe; /* bg-blue-100 */
+            color: #0284c7; /* text-blue-700 */
+            border-left: 4px solid #0284c7; /* border-l-4 border-blue-700 */
+        }
+
+        .nav-link-icon {
+            font-size: 1.25rem; /* text-xl */
+            margin-right: 0.75rem; /* mr-3 */
+        }
+
+        .submenu-btn {
+            width: 100%;
+            text-align: left;
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            padding: 0.625rem 0.75rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border-radius: 0.375rem;
+            color: #4b5563;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+        .submenu-btn:hover {
+            background-color: #f0f9ff;
+            color: #0369a1;
+        }
+
+        .submenu-arrow {
+            margin-left: auto;
+            transform: rotate(0deg);
+            transition: transform 0.2s ease;
+        }
+        .submenu-arrow.rotate-180 {
+            transform: rotate(180deg);
+        }
+
+        .submenu {
+            padding-left: 1.5rem; /* pl-6 */
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem; /* space-y-1 */
+            margin-top: 0.25rem; /* mt-1 */
+        }
+
+        .submenu-link {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 0.75rem; /* px-3 py-2 */
+            font-size: 0.875rem; /* text-sm */
+            font-weight: 500;
+            border-radius: 0.375rem;
+            color: #4b5563;
+            text-decoration: none;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+        .submenu-link:hover {
+            background-color: #f0f9ff;
+            color: #0369a1;
+        }
+        .submenu-link .nav-link-icon {
+            font-size: 0.75rem; /* text-xs */
+            margin-right: 0.5rem; /* mr-2 */
+        }
+
+        .main-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .app-header {
+            background-color: #fff; /* bg-white */
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* shadow-sm */
+            padding: 1rem; /* p-4 */
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-menu-btn {
+            display: block; /* md:hidden */
+            color: #4b5563; /* text-gray-600 */
+            cursor: pointer;
+            width: 1.5rem; /* w-6 */
+            height: 1.5rem; /* h-6 */
+        }
+        .header-menu-btn:hover {
+            color: #1f2937; /* hover:text-gray-800 */
+        }
+        @media (min-width: 768px) {
+            .header-menu-btn {
+                display: none;
+            }
+        }
+
+        .search-container {
+            position: relative;
+            width: 100%;
+            max-width: 20rem; /* max-w-xs */
+            margin-left: 1rem; /* ml-4 */
+        }
+        @media (min-width: 768px) {
+            .search-container {
+                margin-left: 0;
+            }
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.5rem 1rem 0.5rem 2.5rem; /* pl-10 pr-4 py-2 */
+            border-radius: 0.5rem; /* rounded-lg */
+            border: 1px solid #d1d5db; /* border border-gray-300 */
+            outline: none;
+        }
+        .search-input:focus {
+            border-color: transparent;
+            box-shadow: 0 0 0 2px #3b82f6; /* focus:ring-2 focus:ring-blue-500 */
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 0.75rem; /* left-3 */
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9ca3af; /* text-gray-400 */
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem; /* space-x-4 */
+        }
+
+        .notification-btn {
+            color: #6b7280; /* text-gray-500 */
+            cursor: pointer;
+            position: relative;
+            font-size: 1.5rem; /* text-2xl */
+        }
+        .notification-btn:hover {
+            color: #2563eb; /* hover:text-blue-600 */
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            display: block;
+            height: 0.5rem; /* h-2 */
+            width: 0.5rem; /* w-2 */
+            border-radius: 9999px; /* rounded-full */
+            background-color: #ef4444; /* bg-red-500 */
+            box-shadow: 0 0 0 2px #fff; /* ring-2 ring-white */
+        }
+
+        .profile-dropdown-container {
+            position: relative;
+        }
+
+        .profile-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem; /* space-x-2 */
+            outline: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .profile-avatar {
+            width: 2rem; /* w-8 */
+            height: 2rem; /* h-8 */
+            border-radius: 9999px; /* rounded-full */
+        }
+
+        .profile-name {
+            display: none; /* hidden */
+            font-size: 0.875rem; /* text-sm */
+            font-weight: 500; /* font-medium */
+        }
+        @media (min-width: 768px) {
+            .profile-name {
+                display: inline; /* md:inline */
+            }
+        }
+
+        .profile-arrow {
+            display: none; /* hidden */
+            font-size: 0.875rem; /* text-sm */
+        }
+        @media (min-width: 768px) {
+            .profile-arrow {
+                display: inline; /* md:inline */
+            }
+        }
+
+        .profile-dropdown {
+            display: none; /* hidden */
+            position: absolute;
+            right: 0;
+            margin-top: 0.5rem; /* mt-2 */
+            width: 12rem; /* w-48 */
+            background-color: #fff; /* bg-white */
+            border-radius: 0.375rem; /* rounded-md */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
+            padding-top: 0.25rem; /* py-1 */
+            padding-bottom: 0.25rem; /* py-1 */
+            z-index: 20;
+        }
+        .profile-dropdown.open {
+            display: block;
+        }
+
+        .profile-dropdown-item {
+            display: block;
+            padding: 0.5rem 1rem; /* px-4 py-2 */
+            font-size: 0.875rem; /* text-sm */
+            color: #374151; /* text-gray-700 */
+            text-decoration: none;
+        }
+        .profile-dropdown-item:hover {
+            background-color: #f9fafb; /* hover:bg-gray-100 */
+        }
+
+        .main-content {
+            flex: 1;
+            overflow-x: hidden;
+            overflow-y: auto;
+            background-color: #f3f4f6; /* bg-gray-100 */
+            padding: 1.5rem; /* p-6 */
+        }
+
+        @media (min-width: 768px) {
+            .main-content {
+                margin-left: 16rem; /* md:ml-64 */
+            }
+        }
+
+        .view-content {
+            display: none; /* hidden by default, controlled by JS */
+        }
+        .view-content:first-child {
+            display: block; /* Initial view */
+        }
+
+        .welcome-card {
+            margin-bottom: 1.5rem; /* mb-6 */
+            padding: 1.5rem; /* p-6 */
+            background-color: #fff; /* bg-white */
+            border-radius: 0.5rem; /* rounded-lg */
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); /* shadow */
+        }
+        .welcome-title {
+            font-size: 1.5rem; /* text-2xl */
+            font-weight: 600; /* font-semibold */
+            margin-bottom: 0.5rem; /* mb-2 */
+        }
+        .welcome-text {
+            color: #4b5563; /* text-gray-600 */
+        }
+        .welcome-text strong {
+            font-weight: 700;
+        }
+        .welcome-text .text-blue {
+            color: #2563eb; /* text-blue-600 */
+        }
+        .welcome-text .text-green {
+            color: #16a34a; /* text-green-600 */
+        }
+
+        .grid-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem; /* gap-6 */
+        }
+        @media (min-width: 768px) { /* md: */
+            .grid-layout {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (min-width: 1024px) { /* lg: */
+            .grid-layout {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .grid-layout .col-span-2 {
+                grid-column: span 2 / span 2;
+            }
+        }
+
+        .card {
+            background-color: #fff; /* bg-white */
+            padding: 1.5rem; /* p-6 */
+            border-radius: 0.5rem; /* rounded-lg */
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); /* shadow */
+        }
+
+        .card-title {
+            font-size: 1.25rem; /* text-xl */
+            font-weight: 600; /* font-semibold */
+            margin-bottom: 1rem; /* mb-4 */
+        }
+
+        .card-description {
+            font-size: 0.875rem; /* text-sm */
+            color: #4b5563; /* text-gray-600 */
+            margin-bottom: 1rem; /* mb-4 */
+        }
+
+        .list-space-y > div + div {
+            margin-top: 1rem; /* space-y-4 */
+        }
+
+        .list-item {
+            padding: 1rem; /* p-4 */
+            border: 1px solid #e5e7eb; /* border border-gray-200 */
+            border-radius: 0.5rem; /* rounded-lg */
+        }
+
+        .list-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .item-title {
+            font-weight: 600; /* font-semibold */
+            color: #1d4ed8; /* text-blue-700 */
+        }
+
+        .item-text-sm {
+            font-size: 0.875rem; /* text-sm */
+            color: #6b7280; /* text-gray-500 */
+        }
+
+        .countdown-text {
+            font-size: 0.8rem; /* text-xs */
+            color: #ef4444; /* text-red-500 */
+            font-weight: 500; /* font-medium */
+        }
+
+        .item-actions {
+            margin-top: 0.75rem; /* mt-3 */
+            display: flex;
+            gap: 0.5rem; /* space-x-2 */
+        }
+
+        .btn {
+            padding: 0.375rem 0.75rem; /* px-3 py-1.5 */
+            font-size: 0.75rem; /* text-xs */
+            border-radius: 0.375rem; /* rounded-md */
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn-primary {
+            background-color: #3b82f6; /* bg-blue-500 */
+            color: #fff; /* text-white */
+        }
+        .btn-primary:hover {
+            background-color: #2563eb; /* hover:bg-blue-600 */
+        }
+
+        .btn-success {
+            background-color: #22c55e; /* bg-green-500 */
+            color: #fff; /* text-white */
+        }
+        .btn-success:hover {
+            background-color: #16a34a; /* hover:bg-green-600 */
+        }
+
+        .btn-disabled {
+            background-color: #d1d5db; /* bg-gray-300 */
+            color: #374151; /* text-gray-700 */
+            cursor: not-allowed;
+        }
+
+        .btn-info {
+            background-color: #6366f1; /* bg-indigo-500 */
+            color: #fff; /* text-white */
+        }
+        .btn-info:hover {
+            background-color: #4f46e5; /* hover:bg-indigo-600 */
+        }
+
+        .link-action {
+            margin-top: 1rem; /* mt-4 */
+            display: inline-block;
+            font-size: 0.875rem; /* text-sm */
+            color: #2563eb; /* text-blue-600 */
+            text-decoration: none;
+        }
+        .link-action:hover {
+            text-decoration: underline;
+        }
+
+        .quick-link-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem; /* gap-4 */
+        }
+        @media (min-width: 640px) { /* sm: */
+            .quick-link-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .quick-link-item {
+            padding: 1rem; /* p-4 */
+            background-color: #eff6ff; /* bg-blue-50 */
+            border-radius: 0.5rem; /* rounded-lg */
+            color: #1d4ed8; /* text-blue-700 */
+            font-weight: 500; /* font-medium */
+            display: flex;
+            align-items: center;
+            gap: 0.5rem; /* space-x-2 */
+            text-decoration: none;
+            transition: background-color 0.2s ease;
+        }
+        .quick-link-item:hover {
+            background-color: #dbeafe; /* hover:bg-blue-100 */
+        }
+
+        .quick-link-item.green {
+            background-color: #ecfdf5; /* bg-green-50 */
+            color: #047857; /* text-green-700 */
+        }
+        .quick-link-item.green:hover {
+            background-color: #d1fae5; /* hover:bg-green-100 */
+        }
+
+        .quick-link-item.yellow {
+            background-color: #fffbeb; /* bg-yellow-50 */
+            color: #b45309; /* text-yellow-700 */
+        }
+        .quick-link-item.yellow:hover {
+            background-color: #fef3c7; /* hover:bg-yellow-100 */
+        }
+
+        .quick-link-item.purple {
+            background-color: #f5f3ff; /* bg-purple-50 */
+            color: #7c3aed; /* text-purple-700 */
+        }
+        .quick-link-item.purple:hover {
+            background-color: #ede9fe; /* hover:bg-purple-100 */
+        }
+
+        .quick-link-icon {
+            font-size: 1.25rem; /* text-xl */
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 250px; /* Base height */
+            max-height: 300px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 300px;
+                max-height: 350px;
+            }
+        }
+        .chart-container.large {
+            height: 400px;
+            max-height: 500px;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <aside id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <h1 class="sidebar-title">MyDashboard</h1>
+                <button id="closeSidebarButton" class="sidebar-close-btn">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" data-view="dashboard" class="nav-link active">
+                    <span class="nav-link-icon">🏠</span> Dashboard
+                </a>
+                <div>
+                    <button class="submenu-btn" onclick="toggleSubmenu('myTestsSubmenu')">
+                        <span class="nav-link-icon">📝</span> My Tests <span class="submenu-arrow">&#9662;</span>
+                    </button>
+                    <div id="myTestsSubmenu" class="submenu hidden">
+                        <a href="#" data-view="upcomingTests" class="submenu-link"><span class="nav-link-icon">❯</span>Upcoming Tests</a>
+                        <a href="#" data-view="attemptedTests" class="submenu-link"><span class="nav-link-icon">❯</span>Attempted Tests</a>
+                        <a href="#" data-view="practiceTests" class="submenu-link"><span class="nav-link-icon">❯</span>Practice Tests</a>
+                    </div>
+                </div>
+                <div>
+                    <button class="submenu-btn" onclick="toggleSubmenu('resultsSubmenu')">
+                         <span class="nav-link-icon">📊</span> Results & Analytics <span class="submenu-arrow">&#9662;</span>
+                    </button>
+                    <div id="resultsSubmenu" class="submenu hidden">
+                        <a href="#" data-view="overallPerformance" class="submenu-link"><span class="nav-link-icon">❯</span>Overall Performance</a>
+                        <a href="#" data-view="subjectBreakdown" class="submenu-link"><span class="nav-link-icon">❯</span>Subject Breakdown</a>
+                    </div>
+                </div>
+                 <a href="#" data-view="studyResources" class="nav-link">
+                    <span class="nav-link-icon">📚</span> Study Resources
+                </a>
+                <a href="#" data-view="announcements" class="nav-link">
+                    <span class="nav-link-icon">📢</span> Announcements
+                </a>
+                <a href="#" data-view="support" class="nav-link">
+                    <span class="nav-link-icon">❓</span> Support
+                </a>
+            </nav>
+        </aside>
+
+        <div class="main-container">
+            <header class="app-header">
+                <div class="header-content">
+                    <button id="openSidebarButton" class="header-menu-btn">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                    </button>
+                    <div class="search-container">
+                        <input type="text" placeholder="Search tests, topics..." class="search-input">
+                        <span class="search-icon">🔍</span>
+                    </div>
+                    <div class="header-actions">
+                        <button class="notification-btn">
+                            <span>🔔</span>
+                            <span class="notification-badge"></span>
+                        </button>
+                        <div class="profile-dropdown-container">
+                            <button id="profileButton" class="profile-btn">
+                                <img src="https://placehold.co/32x32/E0E0E0/757575?text=S" alt="Student Avatar" class="profile-avatar">
+                                <span class="profile-name">Alex Johnson</span>
+                                <span class="profile-arrow">&#9662;</span>
+                            </button>
+                            <div id="profileDropdown" class="profile-dropdown hidden">
+                                <a href="#" class="profile-dropdown-item">Profile</a>
+                                <a href="#" class="profile-dropdown-item">Settings</a>
+                                <a href="#" class="profile-dropdown-item">Help</a>
+                                <a href="#" class="profile-dropdown-item">Logout</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main class="main-content">
+                <div id="view-dashboard" class="view-content">
+                    <div class="welcome-card">
+                        <h2 class="welcome-title">Welcome back, Alex!</h2>
+                        <p class="welcome-text">You have <strong class="text-blue">2 upcoming tests</strong> and <strong class="text-green">1 new result</strong>. Stay focused and prepared!</p>
+                    </div>
+
+                    <div class="grid-layout">
+                        <div class="card col-span-2">
+                            <h3 class="card-title">Upcoming Tests</h3>
+                            <p class="card-description">This section highlights your most immediate upcoming tests. Click "View Details" for more information or "Start Test" when it's time.</p>
+                            <div class="list-space-y">
+                                <div class="list-item">
+                                    <div class="list-item-header">
+                                        <div>
+                                            <h4 class="item-title">Mathematics Midterm - Algebra</h4>
+                                            <p class="item-text-sm">Subject: Mathematics</p>
+                                            <p class="item-text-sm">Date: June 10, 2025 | 10:00 AM</p>
+                                        </div>
+                                        <span id="countdown-math" class="countdown-text"></span>
+                                    </div>
+                                    <div class="item-actions">
+                                        <button class="btn btn-primary">View Details</button>
+                                        <button class="btn btn-success">Start Test</button>
+                                    </div>
+                                </div>
+                                <div class="list-item">
+                                     <div class="list-item-header">
+                                        <div>
+                                            <h4 class="item-title">Physics Fundamentals - Unit 2</h4>
+                                            <p class="item-text-sm">Subject: Physics</p>
+                                            <p class="item-text-sm">Date: June 12, 2025 | 02:00 PM</p>
+                                        </div>
+                                        <span id="countdown-physics" class="countdown-text"></span>
+                                    </div>
+                                    <div class="item-actions">
+                                        <button class="btn btn-primary">View Details</button>
+                                        <button class="btn btn-disabled" disabled>Start Test</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#" data-view="upcomingTests" class="link-action">View All Upcoming Tests &rarr;</a>
+                        </div>
+
+                        <div class="card">
+                            <h3 class="card-title">Recent Results</h3>
+                             <p class="card-description">Check your latest test results here. Click "View Detailed Results" to see your performance breakdown.</p>
+                            <div class="list-space-y">
+                                <div class="list-item">
+                                    <h4 class="item-title text-green">Chemistry Basics - Unit 1</h4>
+                                    <p class="item-text-sm">Subject: Chemistry</p>
+                                    <p class="item-text-sm">Date Taken: June 01, 2025</p>
+                                    <p class="item-text-sm font-medium">Score: <span class="text-green">85/100 (Passed)</span></p>
+                                    <p class="item-text-sm text-gray">Status: Graded</p>
+                                    <button class="btn btn-info">View Detailed Results</button>
+                                </div>
+                            </div>
+                            <a href="#" data-view="attemptedTests" class="link-action">View All Results &rarr;</a>
+                        </div>
+
+                        <div class="card">
+                            <h3 class="card-title">Performance Snapshot</h3>
+                            <p class="card-description">A quick visual summary of your recent test performance. For a detailed analysis, visit the full analytics page.</p>
+                            <div class="chart-container">
+                                <canvas id="performanceChart"></canvas>
+                            </div>
+                             <a href="#" data-view="overallPerformance" class="link-action">Go to Analytics &rarr;</a>
+                        </div>
+                        
+                        <div class="card col-span-2">
+                            <h3 class="card-title">Quick Links & Resources</h3>
+                            <p class="card-description">Quickly access frequently used sections or personalized study suggestions to help you prepare effectively.</p>
+                            <div class="quick-link-grid">
+                                <a href="#" data-view="practiceTests" class="quick-link-item">
+                                    <span class="quick-link-icon">🏋️</span><span>Explore Practice Tests</span>
+                                </a>
+                                <a href="#" data-view="studyResources" class="quick-link-item green">
+                                   <span class="quick-link-icon">💡</span> <span>Access Math Study Guides</span>
+                                </a>
+                                <a href="#" data-view="announcements" class="quick-link-item yellow">
+                                    <span class="quick-link-icon">🗣️</span><span>View Latest Announcements</span>
+                                </a>
+                                <a href="#" data-view="support" class="quick-link-item purple">
+                                    <span class="quick-link-icon">🤝</span><span>Contact Support</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="view-upcomingTests" class="view-content hidden">
+                    <h2 class="welcome-title">Upcoming Tests</h2>
+                    <p class="welcome-text mb-6">This page lists all your scheduled tests. You can find details about each test, including subject, date, time, and duration. Use the "View Details" button for more specific instructions or syllabus information. The "Start Test" button will become active when the test is about to begin.</p>
+                    <div class="card">
+                        <div class="list-space-y">
+                            <div class="list-item">Test: Math Midterm, Date: June 10, 2025, Action: View Details / Start</div>
+                            <div class="list-item">Test: Physics Unit 2, Date: June 12, 2025, Action: View Details / Start</div>
+                            <div class="list-item">Test: History Essay, Date: June 15, 2025, Action: View Details / Start</div>
+                            <div class="list-item">Test: Biology Quiz, Date: June 18, 2025, Action: View Details / Start</div>
+                        </div>
+                    </div>
+                </div>
+                <div id="view-attemptedTests" class="view-content hidden">
+                    <h2 class="welcome-title">Attempted Tests</h2>
+                     <p class="welcome-text mb-6">Here you can find a record of all the tests you have completed. For each test, you'll see the title, subject, date taken, and your score. If permitted, you can review your answers or view a detailed results breakdown.</p>
+                    <div class="card">
+                        <div class="list-space-y">
+                            <div class="list-item">Test: Chemistry Unit 1, Score: 85/100, Action: View Results</div>
+                            <div class="list-item">Test: English Literature Paper 1, Score: 72/100, Action: View Results</div>
+                        </div>
+                    </div>
+                </div>
+                <div id="view-practiceTests" class="view-content hidden">
+                    <h2 class="welcome-title">Practice Tests</h2>
+                    <p class="welcome-text mb-6">This section provides access to practice tests designed to help you prepare for your actual assessments. You can attempt these tests multiple times to improve your understanding and identify areas for improvement.</p>
+                    <div class="card">
+                         <div class="list-space-y">
+                            <div class="list-item">Practice Test: Algebra Fundamentals, Action: Start Practice</div>
+                            <div class="list-item">Practice Test: Newton's Laws, Action: Start Practice</div>
+                        </div>
+                    </div>
+                </div>
+                <div id="view-overallPerformance" class="view-content hidden">
+                    <h2 class="welcome-title">Overall Performance</h2>
+                    <p class="welcome-text mb-6">Track your academic progress over time. This section offers a comprehensive look at your performance across all subjects and tests, helping you identify trends and focus areas.</p>
+                    <div class="card">
+                        <p>Detailed performance charts and statistics will be displayed here.</p>
+                        <div class="chart-container large">
+                             <canvas id="overallPerformanceChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div id="view-subjectBreakdown" class="view-content hidden">
+                    <h2 class="welcome-title">Subject-wise Breakdown</h2>
+                    <p class="welcome-text mb-6">Analyze your performance in each subject. This breakdown helps pinpoint your strengths and weaknesses in specific academic areas, guiding your study efforts more effectively.</p>
+                     <div class="card">
+                        <p>Performance breakdown by subject will be shown here using tables or charts.</p>
+                    </div>
+                </div>
+                <div id="view-studyResources" class="view-content hidden">
+                    <h2 class="welcome-title">Study Resources</h2>
+                    <p class="welcome-text mb-6">Access a curated collection of study materials, including course notes, practice questions, and external links, organized by subject to support your learning journey.</p>
+                    <div class="card">
+                        <p>Links to PDFs, videos, practice questions will be listed here.</p>
+                    </div>
+                </div>
+                <div id="view-announcements" class="view-content hidden">
+                    <h2 class="welcome-title">Announcements</h2>
+                    <p class="welcome-text mb-6">Stay updated with the latest news, updates, and important messages from instructors or the platform administrators.</p>
+                    <div class="card">
+                         <div class="list-space-y">
+                            <div class="list-item"><strong>June 5, 2025:</strong> Summer break schedule announced.</div>
+                            <div class="list-item"><strong>June 1, 2025:</strong> New Physics resources added.</div>
+                        </div>
+                    </div>
+                </div>
+                <div id="view-support" class="view-content hidden">
+                    <h2 class="welcome-title">Support</h2>
+                    <p class="welcome-text mb-6">Find answers to frequently asked questions, access troubleshooting guides, or contact our support team if you need assistance with the platform or your tests.</p>
+                     <div class="card">
+                        <p>FAQs, contact forms, or support chat links will be available here.</p>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <script>
+        const views = document.querySelectorAll('.view-content');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const navLinkActions = document.querySelectorAll('.link-action');
+        const profileButton = document.getElementById('profileButton');
+        const profileDropdown = document.getElementById('profileDropdown');
+        const openSidebarButton = document.getElementById('openSidebarButton');
+        const closeSidebarButton = document.getElementById('closeSidebarButton');
+        const sidebar = document.getElementById('sidebar');
+
+        function switchView(viewId) {
+            views.forEach(view => {
+                if (view.id === `view-${viewId}`) {
+                    view.classList.remove('hidden');
+                } else {
+                    view.classList.add('hidden');
+                }
+            });
+            // Update active link
+            navLinks.forEach(link => {
+                if (link.dataset.view === viewId) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+            // Close sidebar on mobile after navigation
+            if (window.innerWidth < 768) {
+                sidebar.classList.remove('open');
+            }
+        }
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const viewId = e.currentTarget.dataset.view;
+                if (viewId) {
+                    switchView(viewId);
+                }
+            });
+        });
+        
+        navLinkActions.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const viewId = e.currentTarget.dataset.view;
+                if (viewId) {
+                    switchView(viewId);
+                }
+            });
+        });
+
+        profileButton.addEventListener('click', () => {
+            profileDropdown.classList.toggle('open');
+        });
+
+        // Close dropdown if clicked outside
+        document.addEventListener('click', (event) => {
+            if (!profileButton.contains(event.target) && !profileDropdown.contains(event.target)) {
+                profileDropdown.classList.remove('open');
+            }
+        });
+
+        // Sidebar toggle
+        openSidebarButton.addEventListener('click', () => {
+            sidebar.classList.add('open');
+        });
+        closeSidebarButton.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+        });
+
+        // Submenu toggle
+        window.toggleSubmenu = function(submenuId) {
+            const submenu = document.getElementById(submenuId);
+            const arrow = event.currentTarget.querySelector('.submenu-arrow');
+            submenu.classList.toggle('hidden');
+            arrow.classList.toggle('rotate-180');
+        }
+
+        // Initial view
+        switchView('dashboard');
+
+        // Performance Chart
+        const ctx = document.getElementById('performanceChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Test 1', 'Test 2', 'Test 3', 'Test 4', 'Test 5'],
+                datasets: [{
+                    label: 'Your Scores',
+                    data: [65, 72, 70, 82, 78],
+                    borderColor: 'rgb(59, 130, 246)',
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    tension: 0.3,
+                    fill: true,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return `Score: ${context.parsed.y}`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Overall Performance Chart (example)
+        const overallCtx = document.getElementById('overallPerformanceChart').getContext('2d');
+        if (overallCtx) {
+             new Chart(overallCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Math', 'Physics', 'Chemistry', 'History', 'Biology'],
+                    datasets: [{
+                        label: 'Average Score by Subject',
+                        data: [75, 68, 85, 72, 80],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.5)',
+                            'rgba(54, 162, 235, 0.5)',
+                            'rgba(255, 206, 86, 0.5)',
+                            'rgba(75, 192, 192, 0.5)',
+                            'rgba(153, 102, 255, 0.5)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Average Scores per Subject'
+                        }
+                    }
+                }
+            });
+        }
+
+
+        // Countdown Timers
+        function calculateCountdown(targetDateStr, elementId) {
+            const targetDate = new Date(targetDateStr).getTime();
+            const now = new Date().getTime();
+            const timeLeft = targetDate - now;
+
+            const countdownElement = document.getElementById(elementId);
+            if (!countdownElement) return;
+
+            if (timeLeft < 0) {
+                countdownElement.innerHTML = "Started";
+                return;
+            }
+
+            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            
+            let countdownStr = "";
+            if (days > 0) countdownStr += `${days}d `;
+            if (hours > 0 || days > 0) countdownStr += `${hours}h `;
+            countdownStr += `${minutes}m left`;
+            
+            countdownElement.innerHTML = countdownStr;
+        }
+
+        // Set countdowns (adjust dates as needed for testing)
+        // Using a date in the future
+        const today = new Date();
+        const futureDateMath = new Date(today);
+        futureDateMath.setDate(today.getDate() + 2); // 2 days from now
+        futureDateMath.setHours(10, 0, 0, 0);
+
+        const futureDatePhysics = new Date(today);
+        futureDatePhysics.setDate(today.getDate() + 4); // 4 days from now
+        futureDatePhysics.setHours(14, 0, 0, 0);
+
+        // Update countdowns every minute
+        if(document.getElementById('countdown-math')) {
+            calculateCountdown(futureDateMath.toISOString(), 'countdown-math');
+            setInterval(() => calculateCountdown(futureDateMath.toISOString(), 'countdown-math'), 60000);
+        }
+        if(document.getElementById('countdown-physics')) {
+            calculateCountdown(futureDatePhysics.toISOString(), 'countdown-physics');
+            setInterval(() => calculateCountdown(futureDatePhysics.toISOString(), 'countdown-physics'), 60000);
+        }
+        
+    </script>
+</body>
+</html>

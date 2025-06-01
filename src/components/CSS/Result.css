@@ -1,0 +1,325 @@
+/* General Body and Layout */
+.result {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f3f4f6; /* Equivalent to Tailwind's bg-gray-100 */
+    min-height: 100vh; /* Equivalent to Tailwind's min-h-screen */
+    display: flex; /* Equivalent to Tailwind's flex */
+    flex-direction: column; /* Equivalent to Tailwind's flex-col */
+    color: #333; /* Default text color */
+}
+
+/* Container for main content areas */
+.jee-container {
+    width: 100%;
+    max-width: 1280px; /* A common max-width for Tailwind's container */
+    margin-left: auto; /* Equivalent to Tailwind's mx-auto */
+    margin-right: auto; /* Equivalent to Tailwind's mx-auto */
+    padding: 1rem;/* Equivalent to Tailwind's p-6 */
+}
+
+/* Header Styling */
+.jee-header {
+    background: linear-gradient(to right, #2563eb, #7c3aed); /* Gradient from blue-600 to purple-700 */
+    color: #fff; /* Equivalent to Tailwind's text-white */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Equivalent to Tailwind's shadow-lg */
+    border-bottom-left-radius: 0.75rem; /* Equivalent to Tailwind's rounded-b-xl */
+    border-bottom-right-radius: 0.75rem; /* Equivalent to Tailwind's rounded-b-xl */
+}
+
+.jee-header-content {
+    display: flex; /* Equivalent to Tailwind's flex */
+    flex-direction: column; /* Equivalent to Tailwind's flex-col */
+    justify-content: center; /* Equivalent to Tailwind's justify-center */
+    align-items: center; /* Equivalent to Tailwind's items-center */
+}
+
+@media (min-width: 640px) { /* Small breakpoint (sm) */
+    .jee-header-content {
+        flex-direction: row; /* Equivalent to Tailwind's sm:flex-row */
+    }
+}
+
+.jee-header-title {
+    font-size: 1.875rem; /* Equivalent to Tailwind's text-3xl */
+    font-weight: 700; /* Equivalent to Tailwind's font-bold */
+    margin-bottom: 1rem; /* Equivalent to Tailwind's mb-4 */
+    text-align: center;
+}
+
+@media (min-width: 640px) {
+    .jee-header-title {
+        margin-bottom: 0; /* Equivalent to Tailwind's sm:mb-0 */
+    }
+}
+
+/* Main Content Area */
+.jee-main-content {
+    flex-grow: 1; /* Equivalent to Tailwind's flex-grow */
+}
+
+/* Section Titles */
+.jee-section-title {
+    font-size: 1.875rem; /* Equivalent to Tailwind's text-3xl */
+    font-weight: 700; /* Equivalent to Tailwind's font-bold */
+    color: #1f2937; /* Equivalent to Tailwind's text-gray-800 */
+    margin-bottom: 1.5rem; /* Equivalent to Tailwind's mb-6 */
+    text-align: center;
+}
+
+/* Your Result Section */
+.jee-your-result-section {
+    background-color: #fff; /* Equivalent to Tailwind's bg-white */
+    padding: 2rem; /* Equivalent to Tailwind's p-8 */
+    border-radius: 0.5rem; /* Equivalent to Tailwind's rounded-lg */
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); /* Equivalent to Tailwind's shadow-xl */
+    margin-bottom: 2.5rem; /* Equivalent to Tailwind's mb-10 */
+    border-top: 4px solid #3b82f6; /* Equivalent to Tailwind's border-t-4 border-blue-500 */
+}
+
+.jee-your-result-details {
+    display: flex; /* Equivalent to Tailwind's flex */
+    flex-direction: column; /* Equivalent to Tailwind's flex-col */
+    align-items: center; /* Equivalent to Tailwind's items-center */
+    justify-content: center; /* Equivalent to Tailwind's justify-center */
+    gap: 1.5rem; /* Equivalent to Tailwind's gap-6 */
+    margin-bottom: 1.5rem; /* Equivalent to Tailwind's mb-6 */
+}
+
+/* Score Circle */
+.jee-score-circle {
+    width: 10rem; /* Equivalent to Tailwind's w-48 */
+    height: 10rem; /* Equivalent to Tailwind's h-48 */
+    border-radius: 9999px; /* Equivalent to Tailwind's rounded-full */
+    background-color: #dbeafe; /* Equivalent to Tailwind's bg-blue-100 */
+    border: 4px solid #3b82f6; /* Equivalent to Tailwind's border-4 border-blue-500 */
+    display: flex; /* Equivalent to Tailwind's flex */
+    flex-direction: column; /* Equivalent to Tailwind's flex-col */
+    align-items: center; /* Equivalent to Tailwind's items-center */
+    justify-content: center; /* Equivalent to Tailwind's justify-center */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Equivalent to Tailwind's shadow-lg */
+}
+
+@media (min-width: 640px) {
+
+}
+
+.jee-score-value {
+    color: #1d4ed8; /* Equivalent to Tailwind's text-blue-700 */
+    font-weight: 800; /* Equivalent to Tailwind's font-extrabold */
+    font-size: 2rem; /* Equivalent to Tailwind's text-5xl */
+    line-height: 1; /* Equivalent to Tailwind's leading-none */
+}
+
+@media (min-width: 640px) {
+    .jee-score-value {
+        /* font-size: 4rem; Equivalent to Tailwind's sm:text-6xl */
+    }
+}
+
+.jee-score-total {
+    color: #4b5563; /* Equivalent to Tailwind's text-gray-600 */
+    font-weight: 600; /* Equivalent to Tailwind's font-semibold */
+    font-size: 1.25rem; /* Equivalent to Tailwind's text-xl */
+    margin-top: 0.25rem; /* Equivalent to Tailwind's mt-1 */
+}
+
+@media (min-width: 640px) {
+    .jee-score-total {
+        font-size: 1.5rem; /* Equivalent to Tailwind's sm:text-2xl */
+    }
+}
+
+.jee-result-summary {
+    text-align: center; /* Equivalent to Tailwind's text-center */
+    margin-top: 1rem; /* Equivalent to Tailwind's mt-4 */
+}
+
+.jee-result-text {
+    color: #4b5563; /* Equivalent to Tailwind's text-gray-600 */
+    font-size: 1.125rem; /* Equivalent to Tailwind's text-lg */
+    margin-bottom: 0.5rem; /* Equivalent to Tailwind's mb-2 */
+}
+
+.jee-result-label {
+    font-weight: 600; /* Equivalent to Tailwind's font-semibold */
+    color: #1f2937; /* Equivalent to Tailwind's text-gray-800 */
+}
+
+.jee-result-rank {
+    color: #6d28d9; /* Equivalent to Tailwind's text-purple-700 */
+    font-weight: 700; /* Equivalent to Tailwind's font-bold */
+    font-size: 1.5rem; /* Equivalent to Tailwind's text-2xl */
+}
+
+/* Status Badge */
+.jee-status-badge {
+    display: inline-block; /* Equivalent to Tailwind's inline-block */
+    padding: 0.25rem 1rem; /* Equivalent to Tailwind's px-4 py-1 */
+    border-radius: 9999px; /* Equivalent to Tailwind's rounded-full */
+    font-size: 0.875rem; /* Equivalent to Tailwind's text-sm */
+    font-weight: 600; /* Equivalent to Tailwind's font-semibold */
+}
+
+.jee-status-qualified {
+    background-color: #10B981; /* Green-500 */
+    color: white;
+}
+.jee-status-not-qualified {
+    background-color: #EF4444; /* Red-500 */
+    color: white;
+}
+
+/* Subject-wise Scores Section */
+.jee-subject-scores-container {
+    border-top: 1px solid #e5e7eb; /* Equivalent to Tailwind's border-t */
+    padding-top: 1.5rem; /* Equivalent to Tailwind's pt-6 */
+    margin-top: 1.5rem; /* Equivalent to Tailwind's mt-6 */
+}
+
+.jee-subject-scores-title {
+    font-size: 1.25rem; /* Equivalent to Tailwind's text-xl */
+    font-weight: 600; /* Equivalent to Tailwind's font-semibold */
+    color: #1f2937; /* Equivalent to Tailwind's text-gray-800 */
+    margin-bottom: 1rem; /* Equivalent to Tailwind's mb-4 */
+}
+
+.jee-subject-cards-grid {
+    display: grid; /* Equivalent to Tailwind's grid */
+    grid-template-columns: repeat(1, minmax(0, 1fr)); /* Equivalent to Tailwind's grid-cols-1 */
+    gap: 1rem; /* Equivalent to Tailwind's gap-4 */
+    text-align: center; /* Equivalent to Tailwind's text-center */
+}
+
+@media (min-width: 640px) {
+    .jee-subject-cards-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr)); /* Equivalent to Tailwind's sm:grid-cols-3 */
+    }
+}
+
+.jee-subject-card {
+    padding: 1rem; /* Equivalent to Tailwind's p-4 */
+    border-radius: 0.375rem; /* Equivalent to Tailwind's rounded-md */
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* Equivalent to Tailwind's shadow-sm */
+    display: flex; /* Equivalent to Tailwind's flex */
+    flex-direction: column; /* Equivalent to Tailwind's flex-col */
+    justify-content: space-between; /* Equivalent to Tailwind's justify-between */
+}
+
+.jee-physics-card {
+    background-color: #eff6ff; /* Equivalent to Tailwind's bg-blue-50 */
+}
+.jee-chemistry-card {
+    background-color: #ecfdf5; /* Equivalent to Tailwind's bg-green-50 */
+}
+.jee-mathematics-card {
+    background-color: #f5f3ff; /* Equivalent to Tailwind's bg-purple-50 */
+}
+
+.jee-subject-name {
+    font-weight: 600; /* Equivalent to Tailwind's font-semibold */
+    font-size: 1.125rem; /* Equivalent to Tailwind's text-lg */
+    margin-bottom: 0.25rem; /* Equivalent to Tailwind's mb-1 */
+}
+
+.jee-physics-card .jee-subject-name { color: #1d4ed8; } /* Equivalent to Tailwind's text-blue-700 */
+.jee-chemistry-card .jee-subject-name { color: #047857; } /* Equivalent to Tailwind's text-green-700 */
+.jee-mathematics-card .jee-subject-name { color: #7e22ce; } /* Equivalent to Tailwind's text-purple-700 */
+
+.jee-subject-score {
+    font-size: 1.5rem; /* Equivalent to Tailwind's text-2xl */
+    font-weight: 700; /* Equivalent to Tailwind's font-bold */
+}
+
+.jee-physics-card .jee-subject-score { color: #1e40af; } /* Equivalent to Tailwind's text-blue-800 */
+.jee-chemistry-card .jee-subject-score { color: #065f46; } /* Equivalent to Tailwind's text-green-800 */
+.jee-mathematics-card .jee-subject-score { color: #581c87; } /* Equivalent to Tailwind's text-purple-800 */
+
+.jee-subject-score-total {
+    font-size: 1rem; /* Equivalent to Tailwind's text-base */
+    font-weight: 400; /* Equivalent to Tailwind's font-normal */
+    color: #4b5563; /* Equivalent to Tailwind's text-gray-600 */
+}
+
+.jee-subject-percentage {
+    font-size: 0.875rem; /* Equivalent to Tailwind's text-sm */
+    color: #4b5563; /* Equivalent to Tailwind's text-gray-700 */
+    margin-top: 0.5rem; /* Equivalent to Tailwind's mt-2 */
+}
+
+/* Scoreboard Section */
+.jee-scoreboard-section {
+    background-color: #fff; /* Equivalent to Tailwind's bg-white */
+    padding: 2rem; /* Equivalent to Tailwind's p-8 */
+    border-radius: 0.5rem; /* Equivalent to Tailwind's rounded-lg */
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); /* Equivalent to Tailwind's shadow-xl */
+}
+
+.jee-scoreboard-table-wrapper {
+    overflow-x: auto; /* Equivalent to Tailwind's overflow-x-auto */
+    border-radius: 0.5rem; /* Equivalent to Tailwind's rounded-lg */
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); /* Equivalent to Tailwind's shadow-md */
+}
+
+.jee-scoreboard-table {
+    min-width: 100%; /* Equivalent to Tailwind's min-w-full */
+    border-collapse: collapse; /* Ensures borders are single lines */
+    background-color: #fff; /* Equivalent to Tailwind's bg-white */
+}
+
+.jee-scoreboard-table thead {
+    background-color: #f9fafb; /* Equivalent to Tailwind's bg-gray-50 */
+}
+
+.jee-scoreboard-table th {
+    padding: 0.75rem 1.5rem; /* Equivalent to Tailwind's px-6 py-3 */
+    text-align: left; /* Equivalent to Tailwind's text-left */
+    font-size: 0.75rem; /* Equivalent to Tailwind's text-xs */
+    font-weight: 500; /* Equivalent to Tailwind's font-medium */
+    color: #6b7280; /* Equivalent to Tailwind's text-gray-500 */
+    text-transform: uppercase; /* Equivalent to Tailwind's uppercase */
+    letter-spacing: 0.05em; /* Equivalent to Tailwind's tracking-wider */
+    border-bottom: 1px solid #e5e7eb; /* Part of divide-y-2 simulation */
+}
+
+.jee-scoreboard-table tbody tr {
+    border-bottom: 1px solid #e5e7eb; /* Part of divide-y-2 simulation */
+    transition: background-color 0.15s ease-in-out; /* Equivalent to Tailwind's transition-colors duration-150 */
+}
+
+.jee-scoreboard-table tbody tr:last-child {
+    border-bottom: none; /* Remove border for the last row */
+}
+
+.jee-scoreboard-table tbody tr:hover {
+    background-color: #eff6ff; /* Equivalent to Tailwind's hover:bg-blue-50 */
+}
+
+.jee-scoreboard-table td {
+    padding: 1rem 1.5rem; /* Equivalent to Tailwind's px-6 py-4 */
+    white-space: nowrap; /* Equivalent to Tailwind's whitespace-nowrap */
+    font-size: 0.875rem; /* Equivalent to Tailwind's text-sm */
+    color: #4b5563; /* Equivalent to Tailwind's text-gray-700 */
+}
+
+.jee-scoreboard-table td:first-child {
+    font-weight: 500; /* Equivalent to Tailwind's font-medium */
+    color: #111827; /* Equivalent to Tailwind's text-gray-900 */
+}
+
+.jee-scoreboard-table td:last-child {
+    font-weight: 700; /* Equivalent to Tailwind's font-bold */
+    color: #1e40af; /* Equivalent to Tailwind's text-blue-800 */
+}
+
+/* Footer Styling */
+.jee-footer {
+    background-color: #1f2937; /* Equivalent to Tailwind's bg-gray-800 */
+    color: #fff; /* Equivalent to Tailwind's text-white */
+    padding: 1.5rem; /* Equivalent to Tailwind's p-6 */
+    margin-top: 2.5rem; /* Equivalent to Tailwind's mt-10 */
+    text-align: center; /* Equivalent to Tailwind's text-center */
+    border-top-left-radius: 0.75rem; /* Equivalent to Tailwind's rounded-t-xl */
+    border-top-right-radius: 0.75rem; /* Equivalent to Tailwind's rounded-t-xl */
+}
