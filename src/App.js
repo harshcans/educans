@@ -16,10 +16,10 @@ import Courses from './components/Course/Course';
 import CourseDashboard from './components/Course/CourseDashboard';
 import CoursePreview from './components/Course/CoursePreview';
 import CourseManage from './components/Course/CourseManage';
-import './components/CSS/media.css';
 import TestView from './components/students/TestView';
 import AddQuestionForm from './components/TestCreator/AddQuestionForm';
 import TestQuestionForm from './components/TestCreator/TestQuestionForm';
+import './components/CSS/media.css';
 
 function App() {
     React.useEffect(() => {
