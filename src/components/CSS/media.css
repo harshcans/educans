@@ -1,272 +1,301 @@
 @media (max-width: 576px) {
-    .session .left {
-        display: none;
+  .session .left {
+    display: none;
+  }
+
+  .home {
+    .navbar {
+      padding: 0;
     }
 
-    .home {
-        .navbar {
-            padding: 0;
-        }
-
-        .container {
-            margin: 0 !important;
-            padding-right: 15px;
-            padding-left: 15px;
-        }
-
-        .text-center img {
-            width: 250px;
-        }
-
-        .row {
-            margin: 0px;
-        }
-
-        .col-md-6 {
-            padding: 20px;
-        }
-
-        .style-gGfTw {
-            padding-bottom: 0;
-        }
+    .container {
+      margin: 0 !important;
+      padding-right: 15px;
+      padding-left: 15px;
     }
 
-    .dashboard {
-        .card-container {
-            display: block;
-        }
-
-        .card-container>div {
-            margin: 0;
-            margin-bottom: 15px;
-        }
+    .text-center img {
+      width: 250px;
     }
 
-    .font-larger {
-        font-size: 30px;
+    .row {
+      margin: 0px;
     }
+
+    .col-md-6 {
+      padding: 20px;
+    }
+
+    .style-gGfTw {
+      padding-bottom: 0;
+    }
+  }
+
+  .dashboard {
+    .card-container {
+      display: block;
+    }
+
+    .card-container > div {
+      margin: 0;
+      margin-bottom: 15px;
+    }
+  }
+
+  .font-larger {
+    font-size: 30px;
+  }
 }
 
 @media (max-width: 450px) {
-    .session .left {
-        display: none;
-    }
+  .session .left,
+  .testformat {
+    display: none;
+  }
+  .top-wrapper {
+    display: flex;
+  }
+  .row-center {
+    margin: 10px;
+  }
+  .submit2 {
+    background: black;
+    height: 100%;
+    align-items: center;
+    text-align: center;
+    display: flex;
+    padding: 0 30px;
+  }
+  .more-info {
+    display: flex;
+    margin: 11px;
+    align-items: center;
+  }
+  .time-left {
+    font-size: 14px;
+    border-radius: 5px;
+    background: white;
+    padding: 5px;
+    /* border: 1px solid var(--dark-purple-color); */
+  }
+  .more-info i {
+    font-size: x-large;
+  }
 
-    .buttons-check .btn1,
-    .buttons-check .btn2,
-    .select3,
-    .header .row-left>i {
-        display: none;
-    }
+  .questions-section {
+    margin: 12px;
+  }
+  .header .row-left > i {
+    display: none;
+  }
 
-    .post {
-        padding: 10px 0;
-    }
+  .post {
+    padding: 10px 0;
+  }
 
-    .buttons-check .btn4 {
-        margin-left: auto;
-    }
+  .buttons-check .btn4 {
+    margin-left: auto;
+  }
 
-
-    .post>.flex {
-        width: 100%;
-    }
+  .post > .flex {
+    width: 100%;
+  }
 }
 
 @media (max-width: 700px) {
-    .password-container2{
-        display: block;
-    }
-    .main {
-        padding: 20px 10px;
+  .password-container2 {
+    display: block;
+  }
+  .main {
+    padding: 20px 10px;
+  }
+
+  .flex > .sidebar {
+    display: none;
+  }
+  .form-container {
+    width: 100%;
+    padding: 30px 25px;
+  }
+  .title {
+    font-size: 21px;
+  }
+
+  .header {
+    align-items: center;
+    color: white;
+    padding: 10px;
+    border-bottom: 2px solid var(--dark-purple-color);
+    background: var(--dark-purple-color);
+  }
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+
+  .header h2 {
+    font-size: larger;
+    font-weight: 600;
+  }
+
+  .login,
+  .signup {
+    flex-direction: column;
+  }
+
+  .main {
+    padding: 0;
+  }
+
+  .table-container {
+    overflow-x: scroll;
+  }
+
+  button {
+    padding: 10px;
+    text-align: center;
+  }
+
+  .main-wrapper {
+    padding: 50px 10px;
+  }
+
+  .button i {
+    padding: 0px;
+    margin: 0px;
+  }
+  .flex-column > select {
+    min-width: 0;
+  }
+  .course .navbar ul {
+    padding-left: 25px;
+  }
+  .course .navbar ul li {
+    padding: 5px 10px;
+  }
+  .course .navbar ul li p {
+    font-size: 14px;
+  }
+  .row-right > h2 {
+    margin-left: 0px;
+  }
+
+  .header .row-right {
+    margin: 0px;
+    display: flex;
+    align-items: center;
+  }
+
+  .header .row-right i,
+  .header i {
+    padding: 0 5px;
+  }
+
+  .post {
+    padding: 10px 15px !important;
+  }
+
+  .add-question {
+    width: 100%;
+    padding: 10px 20px;
+    margin-top: 0px;
+  }
+
+  .post > .flex,
+  .input-card,
+  .flex-column > select {
+    width: 100%;
+  }
+
+  .form-container3 {
+    width: 100%;
+    padding: 30px;
+  }
+
+  .ssd .container {
+    margin: 0px 20px !important;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--normal-purple-color);
+  }
+
+  .question-analysis,
+  .section-head,
+  .buttons-check .button p {
+    display: none;
+  }
+
+  .buttons-check {
+    padding: 10px;
+  }
+
+  .buttons-check .btn4,
+  .btn3 {
+    height: 50px;
+    justify-content: center;
+    width: 50px;
+    border-radius: 20%;
+  }
+
+  .buttons-check .button {
+    margin: 0px 10px;
+  }
+
+  .chosing-format {
+    display: none;
+    font-size: 10px;
+    margin: 10px 0;
+  }
+
+  .select3 {
+    padding: 5px;
+  }
+
+  .dashboard .grammer-course,
+  .dashboard .group-task-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .dashboard {
+    p {
+      font-size: 15px;
     }
 
-    .flex > .sidebar {
-        display: none;
-    }
-    .form-container{
-        width: 100%;
-        padding: 30px 25px;
-    }
-    .title{
-        font-size: 21px;
+    .card-2 {
+      padding: var(--padding-sm);
     }
 
-    .header {
-        align-items: center;
-        color: white;
-        padding: 10px;
-        border-bottom: 2px solid var(--dark-purple-color);
-        background: var(--dark-purple-color);
-    }
-    .sidebar{
-        position: fixed;
-        top: 0;
-        left: 0;
+    .course > i {
+      display: none;
     }
 
-    .header h2 {
-        font-size: larger;
-        font-weight: 600;
+    .bell-icon {
+      font-size: var(--font-size-xsm);
+      margin-bottom: 5px;
     }
 
-    .login,
-    .signup {
-        flex-direction: column;
+    .margin-b {
+      margin-bottom: var(--margin-xsm);
     }
 
-    .main {
-        padding: 0;
+    .course {
+      margin-bottom: 15px;
     }
-
-    .table-container {
-        overflow-x: scroll;
-    }
-
-    button {
-        padding: 10px;
-        text-align: center;
-    }
-
-    .main-wrapper {
-        padding: 50px 10px;
-    }
-
-    .button i {
-        padding: 0px;
-        margin: 0px;
-    }
-    .flex-column > select{
-        min-width: 0;
-    }
-    .course .navbar ul {
-        padding-left: 25px;
-    }
-    .course .navbar ul li {
-        padding: 5px 10px;
-    }
-    .course .navbar ul li p {
-        font-size: 14px;
-    }
-    .row-right>h2 {
-        margin-left: 0px;
-    }
-
-    .header .row-right {
-        margin: 0px;
-        display: flex;
-        align-items: center;
-    }
-
-    .header .row-right i,
-    .header i {
-        padding: 0 5px;
-    }
-
-    .post {
-        padding: 10px 15px !important;
-    }
-
-    .add-question {
-        width: 100%;
-        padding: 10px 20px;
-        margin-top: 0px;
-    }
-
-    .post>.flex , .input-card, .flex-column > select{
-        width: 100%;
-    }
-
-    .form-container3 {
-        width: 100%;
-        padding: 30px;
-    }
-
-    .ssd .container {
-        margin: 0px 20px !important;
-    }
-
-    ::-webkit-scrollbar-thumb {
-        background: var(--normal-purple-color);
-    }
-
-    .question-analysis,
-    .section-head,
-    .buttons-check .button p {
-        display: none;
-    }
-
-    .buttons-check {
-        padding: 10px;
-    }
-
-    .buttons-check .btn4,
-    .btn3 {
-        height: 50px;
-        justify-content: center;
-        width: 50px;
-        border-radius: 20%;
-    }
-
-    .buttons-check .button {
-        margin: 0px 10px;
-    }
-
-    .chosing-format {
-        font-size: 10px;
-        margin: 10px 0;
-    }
-
-    .select3 {
-        padding: 5px;
-    }
-
-    .dashboard .grammer-course,
-    .dashboard .group-task-container {
-        display: flex;
-        flex-wrap: wrap;
-    }
-
-    .dashboard {
-        p {
-            font-size: 15px;
-        }
-
-        .card-2 {
-            padding: var(--padding-sm);
-        }
-
-        .course>i {
-            display: none;
-        }
-
-        .bell-icon {
-            font-size: var(--font-size-xsm);
-            margin-bottom: 5px
-        }
-
-        ;
-
-        .margin-b {
-            margin-bottom: var(--margin-xsm);
-        }
-
-        .course {
-
-            margin-bottom: 15px
-        }
-    }
+  }
 }
 
 @media (min-width: 700px) {
-    .header .row-right i {
-        display: none;
-    }
+  .header .row-right i {
+    display: none;
+  }
 
-    .login,
-    .signup {
-        .header {
-            display: none;
-        }
+  .login,
+  .signup {
+    .header {
+      display: none;
     }
+  }
 }
