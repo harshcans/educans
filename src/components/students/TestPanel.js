@@ -170,100 +170,100 @@ const TestPanel = ({ emailid }) => {
       <div className="container2 flex-column">
         <div className="top-wrapper">
           <div className="upper-head flex">
-            
             <div className="row-center">
-              <div className="testname">{testData && testData.Test_Name}</div>
-              <div className="testformat">
-                {testData && testData.Test_Format}
-              </div>
+              <div className="testname">{testData && testData.Name}</div>
+              <div className="testformat">{testData && testData.Format}</div>
             </div>
           </div>
+          <div class="ml-auto submit2">Submit</div>
         </div>
         <div className="flex0-1 flex-column">
           <div className="container flex-nc">
-            <div className="section-heasd">
-              <div className="main-wrapper2">
-                <div className="questions-section">
-                  {questions.length > 0 && (
-                    <div>
-                      <div className="flex-sb">
-                        <div className="question-number">
-                          Question: {currentQuestionIndex + 1}
-                        </div>
-
-                        <div className="chosing-format">
-                          Only One Correct Answer
-                        </div>
-                        <select className="select3">
-                          <option>Physics</option>
-                          <option>Chemistry</option>
-                          <option>Mathematics</option>
-                        </select>
-                      </div>
-
-                      <div className="question">
-                        {questions[currentQuestionIndex].question}
-                      </div>
-                      <div className="flex-column">
-                        {questions[currentQuestionIndex]?.options.map(
-                          (option, index) => {
-                            // const isImage = option.match(/\.(png|jpg|jpeg|webp)$/i);
-                            const cleanOption = option?.trim();
-                            const isImage = /\.(png|jpe?g|webp)$/i.test(
-                              cleanOption
-                            );
-
-                            let imageUrl = null;
-
-                            if (isImage) {
-                              console.log(`Image option found: ${cleanOption}`);
-                              const { data } = supabase.storage
-                                .from("images")
-                                .getPublicUrl(cleanOption);
-                              imageUrl = data?.publicUrl;
-                            }
-
-                            return (
-                              <button
-                                key={index}
-                                className={
-                                  activeOption === index + 1
-                                    ? "box-chosen"
-                                    : "box"
-                                }
-                                onClick={() =>
-                                  handleOptionSelect(option, index)
-                                }
-                              >
-                                <input
-                                  type="radio"
-                                  name="radioGroup"
-                                  value={option}
-                                  checked={selectedItem === option}
-                                  readOnly
-                                />
-                                <span className="yearly">
-                                  {isImage ? (
-                                    <img
-                                      src={imageUrl}
-                                      alt={`option ${index + 1}`}
-                                      style={{
-                                        maxHeight: "80px",
-                                        objectFit: "contain",
-                                      }}
-                                    />
-                                  ) : (
-                                    <> &nbsp; {option} </>
-                                  )}
-                                </span>
-                              </button>
-                            );
-                          }
-                        )}
-                      </div>
-                    </div>
-                  )}
+            <div className="main-wrapper2">
+              <div className="more-info">
+                <div className="time-left"> 57: 12 minutes left</div>
+                <div className="ml-auto">
+                  <i className="fa-solid fa-ellipsis-vertical"></i>{" "}
                 </div>
+              </div>
+              <div className="questions-section">
+                {questions.length > 0 && (
+                  <div>
+                    <div className="flex-sb">
+                      <div className="question-number">
+                        Question: {currentQuestionIndex + 1}
+                      </div>
+
+                      <div className="chosing-format">
+                        Only One Correct Answer
+                      </div>
+                      <select className="select3">
+                        <option>Physics</option>
+                        <option>Chemistry</option>
+                        <option>Mathematics</option>
+                      </select>
+                    </div>
+
+                    <div className="question">
+                      {questions[currentQuestionIndex].question}
+                    </div>
+                    <div className="flex-column">
+                      {questions[currentQuestionIndex]?.options.map(
+                        (option, index) => {
+                          // const isImage = option.match(/\.(png|jpg|jpeg|webp)$/i);
+                          const cleanOption = option?.trim();
+                          const isImage = /\.(png|jpe?g|webp)$/i.test(
+                            cleanOption
+                          );
+
+                          let imageUrl = null;
+
+                          if (isImage) {
+                            console.log(`Image option found: ${cleanOption}`);
+                            const { data } = supabase.storage
+                              .from("images")
+                              .getPublicUrl(cleanOption);
+                            imageUrl = data?.publicUrl;
+                          }
+
+                          return (
+                            <button
+                              key={index}
+                              className={
+                                activeOption === index + 1
+                                  ? "box-chosen"
+                                  : "box"
+                              }
+                              onClick={() => handleOptionSelect(option, index)}
+                            >
+                              <input
+                                type="radio"
+                                name="radioGroup"
+                                value={option}
+                                checked={selectedItem === option}
+                                readOnly
+                              />
+                              <span className="yearly">
+                                {isImage ? (
+                                  <img
+                                    src={imageUrl}
+                                    alt={`option ${index + 1}`}
+                                    style={{
+                                      maxHeight: "80px",
+                                      objectFit: "contain",
+                                    }}
+                                  />
+                                ) : (
+                                  <> &nbsp; {option} </>
+                                )}
+                              </span>
+                            </button>
+                          );
+                        }
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
