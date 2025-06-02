@@ -3,6 +3,9 @@
   .testformat {
     display: none;
   }
+.upper-head{
+ margin:0;
+}
   .top-wrapper {
     display: flex;
   }
