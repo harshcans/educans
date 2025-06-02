@@ -11,6 +11,9 @@
   font-style: normal;
   display: flex;
 }
+.submit2{
+  display:none;
+}
 .testname {
   font-size: 21px;
   font-weight: bold;
