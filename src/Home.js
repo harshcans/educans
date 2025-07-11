@@ -1,6 +1,6 @@
 import React from "react";
 import "./components/CSS/Homepage.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const HomePage = () => {
   return (
