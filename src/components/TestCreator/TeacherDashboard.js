@@ -71,7 +71,7 @@ const TeacherDashboard = () => {
 
   return (
     <div className="flex">
-      <Sidebar />
+      <Sidebar active='button2' />
       <div className="main">
         <div className="header flex">
           <div className="row-right">
@@ -131,7 +131,7 @@ const TeacherDashboard = () => {
                   <th>Test Format</th>
                   <th>Status</th>
                   <th>Test Taker</th>
-                  <th>Option</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
