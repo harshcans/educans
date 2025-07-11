@@ -1,43 +1,423 @@
-import React from 'react';
-import { auth } from '../firebase';
-import image from '../image.png';
-import { Link,useNavigate } from 'react-router-dom';
+import React, {useEffect} from "react";
+import { auth } from "../firebase";
+import { Link, useNavigate } from "react-router-dom";
 
-const Sidebar = ({active}) => {
-
+const Sidebar = ({ active,venue }) => {
   const navigate = useNavigate();
 
-  
   const handleSignOut = async () => {
     await auth.signOut();
-    navigate('/login');
+    navigate("/login");
   };
 
-  const buttonElement = document.getElementById(active);
-  if (buttonElement){
-  const currentClassName = buttonElement.className;
-        const newClassName = currentClassName === 'button1' ? {active} : 'nav-active';
-      buttonElement.className = newClassName;
-  }
+useEffect(() => {
+    const element = document.querySelector(`.${active}`);
+    if (element) {
+      element.classList.add('active-sidebar');
+    }
+  }, [active]);
 
   return (
     <div className="sidebar flex-column">
-  <div className="image-sidebar">
-    <img src={image} alt="" /> 
-  </div>
-  <div className="buttons-sidebar flex-column width-100">
-    <button className="button1" id="button1">
-      <i className="fa-solid fa-house mr-rt-10" />
-      Dashboard
-    </button>
-    <Link to='/author/creation'><button className="button1" id="button2" >Tests </button></Link>
-    <Link to='/author/course'><button className="button1" id="button3">Course</button></Link>
-    <Link to='/author/creation'><button className="button1" id="button4">Questions Bank</button></Link>
-    <Link to='/author/test'><button className="button1" id="button5">Setting</button></Link>
-    <button className="button1" onClick={handleSignOut}>Logout</button>
-  </div>
-</div>
+      <div className="logo-sidebar flex">
+        <div className="logo-first-word">Grade</div>
+        <div className="logo-second-word">Flow</div>
+      </div>
+      {venue === 'student' ? (
+    <div className="buttons-sidebar flex-column h-100 width-100">
+        <button className="button1" id="button1">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            width="24"
+            height="24"
+            color="#000000"
+            fill="none"
+          >
+            <path
+              d="M9.75 3H5.75C5.05222 3 4.70333 3 4.41943 3.08612C3.78023 3.28002 3.28002 3.78023 3.08612 4.41943C3 4.70333 3 5.05222 3 5.75C3 6.44778 3 6.79667 3.08612 7.08057C3.28002 7.71977 3.78023 8.21998 4.41943 8.41388C4.70333 8.5 5.05222 8.5 5.75 8.5H9.75C10.4478 8.5 10.7967 8.5 11.0806 8.41388C11.7198 8.21998 12.22 7.71977 12.4139 7.08057C12.5 6.79667 12.5 6.44778 12.5 5.75C12.5 5.05222 12.5 4.70333 12.4139 4.41943C12.22 3.78023 11.7198 3.28002 11.0806 3.08612C10.7967 3 10.4478 3 9.75 3Z"
+              stroke="#ffffff"
+              stroke-width="1.5"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M21 9.75V5.75C21 5.05222 21 4.70333 20.9139 4.41943C20.72 3.78023 20.2198 3.28002 19.5806 3.08612C19.2967 3 18.9478 3 18.25 3C17.5522 3 17.2033 3 16.9194 3.08612C16.2802 3.28002 15.78 3.78023 15.5861 4.41943C15.5 4.70333 15.5 5.05222 15.5 5.75V9.75C15.5 10.4478 15.5 10.7967 15.5861 11.0806C15.78 11.7198 16.2802 12.22 16.9194 12.4139C17.2033 12.5 17.5522 12.5 18.25 12.5C18.9478 12.5 19.2967 12.5 19.5806 12.4139C20.2198 12.22 20.72 11.7198 20.9139 11.0806C21 10.7967 21 10.4478 21 9.75Z"
+              stroke="#ffffff"
+              stroke-width="1.5"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M16.9194 20.9139C17.2033 21 17.5522 21 18.25 21C18.9478 21 19.2967 21 19.5806 20.9139C20.2198 20.72 20.72 20.2198 20.9139 19.5806C21 19.2967 21 18.9478 21 18.25C21 17.5522 21 17.2033 20.9139 16.9194C20.72 16.2802 20.2198 15.78 19.5806 15.5861C19.2967 15.5 18.9478 15.5 18.25 15.5C17.5522 15.5 17.2033 15.5 16.9194 15.5861C16.2802 15.78 15.78 16.2802 15.5861 16.9194C15.5 17.2033 15.5 17.5522 15.5 18.25C15.5 18.9478 15.5 19.2967 15.5861 19.5806C15.78 20.2198 16.2802 20.72 16.9194 20.9139Z"
+              stroke="#ffffff"
+              stroke-width="1.5"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M8.5 11.5H7C5.11438 11.5 4.17157 11.5 3.58579 12.0858C3 12.6716 3 13.6144 3 15.5V17C3 18.8856 3 19.8284 3.58579 20.4142C4.17157 21 5.11438 21 7 21H8.5C10.3856 21 11.3284 21 11.9142 20.4142C12.5 19.8284 12.5 18.8856 12.5 17V15.5C12.5 13.6144 12.5 12.6716 11.9142 12.0858C11.3284 11.5 10.3856 11.5 8.5 11.5Z"
+              stroke="#ffffff"
+              stroke-width="1.5"
+              stroke-linejoin="round"
+            />
+          </svg>
+          Dashboard
+        </button>
+        <Link to="/author/creation">
+          <button className="button2" id="button2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              width="24"
+              height="24"
+              color="#ffffff"
+              fill="none"
+            >
+              <path
+                d="M18 15L18 22M21.5 18.5L14.5 18.5"
+                stroke="#ffffff"
+                stroke-width="1.5"
+                stroke-linecap="round"
+              ></path>
+              <path
+                d="M7 16H11M7 11H15"
+                stroke="#ffffff"
+                stroke-width="1.5"
+                stroke-linecap="round"
+              ></path>
+              <path
+                d="M6.5 3.5C4.9442 3.54667 4.01661 3.71984 3.37477 4.36227C2.49609 5.24177 2.49609 6.6573 2.49609 9.48836L2.49609 15.9944C2.49609 18.8255 2.49609 20.241 3.37477 21.1205C4.25345 22 5.66767 22 8.49609 22H11.5M15.4922 3.5C17.048 3.54667 17.9756 3.71984 18.6174 4.36228C19.4961 5.24177 19.4961 6.6573 19.4961 9.48836V12"
+                stroke="#ffffff"
+                stroke-width="1.5"
+                stroke-linecap="round"
+              ></path>
+              <path
+                d="M6.49609 3.75C6.49609 2.7835 7.2796 2 8.24609 2H13.7461C14.7126 2 15.4961 2.7835 15.4961 3.75C15.4961 4.7165 14.7126 5.5 13.7461 5.5H8.24609C7.2796 5.5 6.49609 4.7165 6.49609 3.75Z"
+                stroke="#ffffff"
+                stroke-width="1.5"
+                stroke-linejoin="round"
+              ></path>
+            </svg>{" "}
+            Test Library{" "}
+          </button>
+        </Link>
+        <Link to="/author/course">
+          <button className="button3" id="button3">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              width="24"
+              height="24"
+              color="#ffffff"
+              fill="none"
+            >
+              <path
+                d="M5.33333 3.00001C7.79379 2.99657 10.1685 3.88709 12 5.5V21C10.1685 19.3871 7.79379 18.4966 5.33333 18.5C3.77132 18.5 2.99032 18.5 2.64526 18.2792C2.4381 18.1466 2.35346 18.0619 2.22086 17.8547C2 17.5097 2 16.8941 2 15.6629V6.40322C2 4.97543 2 4.26154 2.54874 3.68286C3.09748 3.10418 3.65923 3.07432 4.78272 3.0146C4.965 3.00491 5.14858 3.00001 5.33333 3.00001Z"
+                stroke="#ffffff"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></path>
+              <path
+                d="M12 21V5.5C13.8315 3.88709 16.2062 2.99657 18.6667 3.00001C18.8514 3.00001 19.035 3.00491 19.2173 3.0146C20.3408 3.07432 20.9025 3.10418 21.4513 3.68286C22 4.26154 22 4.97543 22 6.40322V11.5"
+                stroke="#ffffff"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></path>
+              <path
+                d="M21.6887 14.9339L21.0661 14.3113C20.651 13.8962 19.978 13.8962 19.5629 14.3113L16.2141 17.6601C15.769 18.1052 15.4656 18.6722 15.3421 19.2895L15 21L16.7105 20.6579C17.3278 20.5344 17.8948 20.231 18.3399 19.7859L21.6887 16.4371C22.1038 16.022 22.1038 15.349 21.6887 14.9339Z"
+                stroke="#ffffff"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></path>
+            </svg>
+            Courses
+          </button>
+        </Link>
+        <Link to="/author/test">
+          <button className="button4" id="button5">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              width="24"
+              height="24"
+              color="#ffffff"
+              fill="none"
+            >
+              <path
+                d="M9.42613 3.06269C10.6836 2.35423 11.3124 2 12 2C12.6876 2 13.3164 2.35423 14.5739 3.06269L16.3239 4.04861C17.6292 4.78401 18.2819 5.15171 18.6409 5.76664C19 6.38157 19 7.13157 19 8.63158V10.3684C19 11.8684 19 12.6184 18.6409 13.2334C18.2819 13.8483 17.6292 14.216 16.3239 14.9514L14.5739 15.9373C13.3164 16.6458 12.6876 17 12 17C11.3124 17 10.6836 16.6458 9.42613 15.9373L7.67613 14.9514C6.37081 14.216 5.71815 13.8483 5.35908 13.2334C5 12.6184 5 11.8684 5 10.3684V8.63158C5 7.13157 5 6.38157 5.35908 5.76664C5.71815 5.15171 6.37081 4.78401 7.67613 4.04861L9.42613 3.06269Z"
+                stroke="#ffffff"
+                stroke-width="1.5"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M9 10.1667C9 10.1667 9.75 10.1667 10.5 11.5C10.5 11.5 12.8824 8.16667 15 7.5"
+                stroke="#ffffff"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M16.8825 15L17.5527 18.2099C17.9833 20.2723 18.1986 21.3035 17.7563 21.7923C17.3141 22.281 16.546 21.8606 15.0099 21.0198L12.7364 19.7753C12.3734 19.5766 12.1919 19.4773 12 19.4773C11.8081 19.4773 11.6266 19.5766 11.2636 19.7753L8.99008 21.0198C7.45397 21.8606 6.68592 22.281 6.24365 21.7923C5.80139 21.3035 6.01669 20.2723 6.44731 18.2099L7.11752 15"
+                stroke="#ffffff"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            Results
+          </button>
+        </Link>
+        <Link to="/author/test">
+          <button className="button5" id="button5">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              width="24"
+              height="24"
+              color="#ffffff"
+              fill="none"
+            >
+              <path
+                d="M8 13.5H16M8 8.5H12"
+                stroke="#ffffff"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></path>
+              <path
+                d="M6.09881 19C4.7987 18.8721 3.82475 18.4816 3.17157 17.8284C2 16.6569 2 14.7712 2 11V10.5C2 6.72876 2 4.84315 3.17157 3.67157C4.34315 2.5 6.22876 2.5 10 2.5H14C17.7712 2.5 19.6569 2.5 20.8284 3.67157C22 4.84315 22 6.72876 22 10.5V11C22 14.7712 22 16.6569 20.8284 17.8284C19.6569 19 17.7712 19 14 19C13.4395 19.0125 12.9931 19.0551 12.5546 19.155C11.3562 19.4309 10.2465 20.0441 9.14987 20.5789C7.58729 21.3408 6.806 21.7218 6.31569 21.3651C5.37769 20.6665 6.29454 18.5019 6.5 17.5"
+                stroke="#ffffff"
+                stroke-width="1.5"
+                stroke-linecap="round"
+              ></path>
+            </svg>
+            Comments
+          </button>
+        </Link>
+        <button className="button6 mt-auto" onClick={handleSignOut}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            width="24"
+            height="24"
+            color="#ffffff"
+            fill="none"
+          >
+            <path
+              d="M2.5 12C2.5 7.52166 2.5 5.28249 3.89124 3.89124C5.28249 2.5 7.52166 2.5 12 2.5C16.4783 2.5 18.7175 2.5 20.1088 3.89124C21.5 5.28249 21.5 7.52166 21.5 12C21.5 16.4783 21.5 18.7175 20.1088 20.1088C18.7175 21.5 16.4783 21.5 12 21.5C7.52166 21.5 5.28249 21.5 3.89124 20.1088C2.5 18.7175 2.5 16.4783 2.5 12Z"
+              stroke="#ffffff"
+              stroke-width="1.5"
+            ></path>
+            <path
+              d="M17.0366 12.0275L10.061 12.0275M10.061 12.0275C10.061 12.5979 12.2163 14.5148 12.2163 14.5148M10.061 12.0275C10.061 11.4422 12.2163 9.5631 12.2163 9.5631M7.03662 7.99512V15.9951"
+              stroke="#ffffff"
+              stroke-width="1.5"
+              stroke-linecap="round"
+            ></path>
+          </svg>
+          Logout
+        </button>
+      </div>  
+    ) : (
+      <div className="buttons-sidebar flex-column h-100 width-100">
+        <button className="button1" id="button1">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            width="24"
+            height="24"
+            color="#000000"
+            fill="none"
+          >
+            <path
+              d="M9.75 3H5.75C5.05222 3 4.70333 3 4.41943 3.08612C3.78023 3.28002 3.28002 3.78023 3.08612 4.41943C3 4.70333 3 5.05222 3 5.75C3 6.44778 3 6.79667 3.08612 7.08057C3.28002 7.71977 3.78023 8.21998 4.41943 8.41388C4.70333 8.5 5.05222 8.5 5.75 8.5H9.75C10.4478 8.5 10.7967 8.5 11.0806 8.41388C11.7198 8.21998 12.22 7.71977 12.4139 7.08057C12.5 6.79667 12.5 6.44778 12.5 5.75C12.5 5.05222 12.5 4.70333 12.4139 4.41943C12.22 3.78023 11.7198 3.28002 11.0806 3.08612C10.7967 3 10.4478 3 9.75 3Z"
+              stroke="#ffffff"
+              stroke-width="1.5"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M21 9.75V5.75C21 5.05222 21 4.70333 20.9139 4.41943C20.72 3.78023 20.2198 3.28002 19.5806 3.08612C19.2967 3 18.9478 3 18.25 3C17.5522 3 17.2033 3 16.9194 3.08612C16.2802 3.28002 15.78 3.78023 15.5861 4.41943C15.5 4.70333 15.5 5.05222 15.5 5.75V9.75C15.5 10.4478 15.5 10.7967 15.5861 11.0806C15.78 11.7198 16.2802 12.22 16.9194 12.4139C17.2033 12.5 17.5522 12.5 18.25 12.5C18.9478 12.5 19.2967 12.5 19.5806 12.4139C20.2198 12.22 20.72 11.7198 20.9139 11.0806C21 10.7967 21 10.4478 21 9.75Z"
+              stroke="#ffffff"
+              stroke-width="1.5"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M16.9194 20.9139C17.2033 21 17.5522 21 18.25 21C18.9478 21 19.2967 21 19.5806 20.9139C20.2198 20.72 20.72 20.2198 20.9139 19.5806C21 19.2967 21 18.9478 21 18.25C21 17.5522 21 17.2033 20.9139 16.9194C20.72 16.2802 20.2198 15.78 19.5806 15.5861C19.2967 15.5 18.9478 15.5 18.25 15.5C17.5522 15.5 17.2033 15.5 16.9194 15.5861C16.2802 15.78 15.78 16.2802 15.5861 16.9194C15.5 17.2033 15.5 17.5522 15.5 18.25C15.5 18.9478 15.5 19.2967 15.5861 19.5806C15.78 20.2198 16.2802 20.72 16.9194 20.9139Z"
+              stroke="#ffffff"
+              stroke-width="1.5"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M8.5 11.5H7C5.11438 11.5 4.17157 11.5 3.58579 12.0858C3 12.6716 3 13.6144 3 15.5V17C3 18.8856 3 19.8284 3.58579 20.4142C4.17157 21 5.11438 21 7 21H8.5C10.3856 21 11.3284 21 11.9142 20.4142C12.5 19.8284 12.5 18.8856 12.5 17V15.5C12.5 13.6144 12.5 12.6716 11.9142 12.0858C11.3284 11.5 10.3856 11.5 8.5 11.5Z"
+              stroke="#ffffff"
+              stroke-width="1.5"
+              stroke-linejoin="round"
+            />
+          </svg>
+          Dashboard
+        </button>
+        <Link to="/author/creation">
+          <button className="button2" id="button2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              width="24"
+              height="24"
+              color="#ffffff"
+              fill="none"
+            >
+              <path
+                d="M18 15L18 22M21.5 18.5L14.5 18.5"
+                stroke="#ffffff"
+                stroke-width="1.5"
+                stroke-linecap="round"
+              ></path>
+              <path
+                d="M7 16H11M7 11H15"
+                stroke="#ffffff"
+                stroke-width="1.5"
+                stroke-linecap="round"
+              ></path>
+              <path
+                d="M6.5 3.5C4.9442 3.54667 4.01661 3.71984 3.37477 4.36227C2.49609 5.24177 2.49609 6.6573 2.49609 9.48836L2.49609 15.9944C2.49609 18.8255 2.49609 20.241 3.37477 21.1205C4.25345 22 5.66767 22 8.49609 22H11.5M15.4922 3.5C17.048 3.54667 17.9756 3.71984 18.6174 4.36228C19.4961 5.24177 19.4961 6.6573 19.4961 9.48836V12"
+                stroke="#ffffff"
+                stroke-width="1.5"
+                stroke-linecap="round"
+              ></path>
+              <path
+                d="M6.49609 3.75C6.49609 2.7835 7.2796 2 8.24609 2H13.7461C14.7126 2 15.4961 2.7835 15.4961 3.75C15.4961 4.7165 14.7126 5.5 13.7461 5.5H8.24609C7.2796 5.5 6.49609 4.7165 6.49609 3.75Z"
+                stroke="#ffffff"
+                stroke-width="1.5"
+                stroke-linejoin="round"
+              ></path>
+            </svg>{" "}
+            My Tests{" "}
+          </button>
+        </Link>
+        <Link to="/author/course">
+          <button className="button3" id="button3">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              width="24"
+              height="24"
+              color="#ffffff"
+              fill="none"
+            >
+              <path
+                d="M5.33333 3.00001C7.79379 2.99657 10.1685 3.88709 12 5.5V21C10.1685 19.3871 7.79379 18.4966 5.33333 18.5C3.77132 18.5 2.99032 18.5 2.64526 18.2792C2.4381 18.1466 2.35346 18.0619 2.22086 17.8547C2 17.5097 2 16.8941 2 15.6629V6.40322C2 4.97543 2 4.26154 2.54874 3.68286C3.09748 3.10418 3.65923 3.07432 4.78272 3.0146C4.965 3.00491 5.14858 3.00001 5.33333 3.00001Z"
+                stroke="#ffffff"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></path>
+              <path
+                d="M12 21V5.5C13.8315 3.88709 16.2062 2.99657 18.6667 3.00001C18.8514 3.00001 19.035 3.00491 19.2173 3.0146C20.3408 3.07432 20.9025 3.10418 21.4513 3.68286C22 4.26154 22 4.97543 22 6.40322V11.5"
+                stroke="#ffffff"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></path>
+              <path
+                d="M21.6887 14.9339L21.0661 14.3113C20.651 13.8962 19.978 13.8962 19.5629 14.3113L16.2141 17.6601C15.769 18.1052 15.4656 18.6722 15.3421 19.2895L15 21L16.7105 20.6579C17.3278 20.5344 17.8948 20.231 18.3399 19.7859L21.6887 16.4371C22.1038 16.022 22.1038 15.349 21.6887 14.9339Z"
+                stroke="#ffffff"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></path>
+            </svg>
+            My Courses
+          </button>
+        </Link>
+        <Link to="/author/test">
+          <button className="button4" id="button5">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              width="24"
+              height="24"
+              color="#ffffff"
+              fill="none"
+            >
+              <path
+                d="M9.42613 3.06269C10.6836 2.35423 11.3124 2 12 2C12.6876 2 13.3164 2.35423 14.5739 3.06269L16.3239 4.04861C17.6292 4.78401 18.2819 5.15171 18.6409 5.76664C19 6.38157 19 7.13157 19 8.63158V10.3684C19 11.8684 19 12.6184 18.6409 13.2334C18.2819 13.8483 17.6292 14.216 16.3239 14.9514L14.5739 15.9373C13.3164 16.6458 12.6876 17 12 17C11.3124 17 10.6836 16.6458 9.42613 15.9373L7.67613 14.9514C6.37081 14.216 5.71815 13.8483 5.35908 13.2334C5 12.6184 5 11.8684 5 10.3684V8.63158C5 7.13157 5 6.38157 5.35908 5.76664C5.71815 5.15171 6.37081 4.78401 7.67613 4.04861L9.42613 3.06269Z"
+                stroke="#ffffff"
+                stroke-width="1.5"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M9 10.1667C9 10.1667 9.75 10.1667 10.5 11.5C10.5 11.5 12.8824 8.16667 15 7.5"
+                stroke="#ffffff"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M16.8825 15L17.5527 18.2099C17.9833 20.2723 18.1986 21.3035 17.7563 21.7923C17.3141 22.281 16.546 21.8606 15.0099 21.0198L12.7364 19.7753C12.3734 19.5766 12.1919 19.4773 12 19.4773C11.8081 19.4773 11.6266 19.5766 11.2636 19.7753L8.99008 21.0198C7.45397 21.8606 6.68592 22.281 6.24365 21.7923C5.80139 21.3035 6.01669 20.2723 6.44731 18.2099L7.11752 15"
+                stroke="#ffffff"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            Results
+          </button>
+        </Link>
+        <Link to="/author/test">
+          <button className="button5" id="button5">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              width="24"
+              height="24"
+              color="#ffffff"
+              fill="none"
+            >
+              <path
+                d="M8 13.5H16M8 8.5H12"
+                stroke="#ffffff"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></path>
+              <path
+                d="M6.09881 19C4.7987 18.8721 3.82475 18.4816 3.17157 17.8284C2 16.6569 2 14.7712 2 11V10.5C2 6.72876 2 4.84315 3.17157 3.67157C4.34315 2.5 6.22876 2.5 10 2.5H14C17.7712 2.5 19.6569 2.5 20.8284 3.67157C22 4.84315 22 6.72876 22 10.5V11C22 14.7712 22 16.6569 20.8284 17.8284C19.6569 19 17.7712 19 14 19C13.4395 19.0125 12.9931 19.0551 12.5546 19.155C11.3562 19.4309 10.2465 20.0441 9.14987 20.5789C7.58729 21.3408 6.806 21.7218 6.31569 21.3651C5.37769 20.6665 6.29454 18.5019 6.5 17.5"
+                stroke="#ffffff"
+                stroke-width="1.5"
+                stroke-linecap="round"
+              ></path>
+            </svg>
+            Comments
+          </button>
+        </Link>
+        <button className="button6 mt-auto" onClick={handleSignOut}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            width="24"
+            height="24"
+            color="#ffffff"
+            fill="none"
+          >
+            <path
+              d="M2.5 12C2.5 7.52166 2.5 5.28249 3.89124 3.89124C5.28249 2.5 7.52166 2.5 12 2.5C16.4783 2.5 18.7175 2.5 20.1088 3.89124C21.5 5.28249 21.5 7.52166 21.5 12C21.5 16.4783 21.5 18.7175 20.1088 20.1088C18.7175 21.5 16.4783 21.5 12 21.5C7.52166 21.5 5.28249 21.5 3.89124 20.1088C2.5 18.7175 2.5 16.4783 2.5 12Z"
+              stroke="#ffffff"
+              stroke-width="1.5"
+            ></path>
+            <path
+              d="M17.0366 12.0275L10.061 12.0275M10.061 12.0275C10.061 12.5979 12.2163 14.5148 12.2163 14.5148M10.061 12.0275C10.061 11.4422 12.2163 9.5631 12.2163 9.5631M7.03662 7.99512V15.9951"
+              stroke="#ffffff"
+              stroke-width="1.5"
+              stroke-linecap="round"
+            ></path>
+          </svg>
+          Logout
+        </button>
+      </div>
 
+        )}
+    </div>
   );
 };
 
