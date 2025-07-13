@@ -1,48 +1,11 @@
-@media (max-width: 576px) {
- .session .left,
+@media (max-width: 550px) {
+  .session .left,
   .testformat {
     display: none;
   }
-.upper-head{
- margin:0;
-}
-  .top-wrapper {
-    display: flex;
+  .btn5 {
+    margin-left: auto;
   }
-  .row-center {
-    margin: 10px;
-  }
-  .submit2 {
-    background: black;
-    height: 100%;
-    align-items: center;
-    text-align: center;
-    display: flex;
-    padding: 0 30px;
-  }
-  .more-info {
-    display: flex;
-    margin: 11px;
-    align-items: center;
-  }
-  .time-left {
-    font-size: 14px;
-    border-radius: 5px;
-    background: white;
-    padding: 5px;
-    /* border: 1px solid var(--dark-purple-color); */
-  }
-  .more-info i {
-    font-size: x-large;
-  }
-
-  .questions-section {
-    margin: 12px;
-  }
-  .session .left {
-    display: none;
-  }
-
   .home {
     .navbar {
       padding: 0;
@@ -85,10 +48,35 @@
   .font-larger {
     font-size: 30px;
   }
-}
 
-@media (max-width: 450px) {
- 
+  .session .left,
+  .testformat,.top-buttons {
+    display: none;
+  }
+  .more-info {
+    display: flex;
+    margin: 11px;
+    align-items: center;
+  }
+  .ques-row, .container{
+    width:100%
+  }
+  .time-left {
+    gap:6px;
+    --tw-bg-opacity: 1;
+    background-color: rgb(224 231 255 / var(--tw-bg-opacity, 1));
+    color: rgb(55 48 163 / var(--tw-bg-opacity, 1));
+    border-radius: 5px;
+    padding: 5px;
+    /* border: 1px solid var(--dark-purple-color); */
+  }
+  .more-info i {
+    font-size: x-large;
+  }
+
+  .questions-section {
+    margin: 12px;
+  }
   .header .row-left > i {
     display: none;
   }
@@ -114,7 +102,7 @@
     padding: 20px 10px;
   }
 
-  .flex > .sidebar {
+  .flex > .sidebar,.test-info {
     display: none;
   }
   .form-container {
@@ -129,8 +117,8 @@
     align-items: center;
     color: white;
     padding: 10px;
-    border-bottom: 2px solid var(--dark-purple-color);
-    background: var(--dark-purple-color);
+    border-bottom: 2px solid var(--main-color);
+    background: var(--main-color);
   }
   .sidebar {
     position: fixed;
@@ -142,7 +130,9 @@
     font-size: larger;
     font-weight: 600;
   }
-
+.ques-row{
+  width:100%
+}
   .login,
   .signup {
     flex-direction: column;
@@ -232,7 +222,7 @@
   }
 
   .buttons-check {
-    padding: 10px;
+    padding: 6.5px;
   }
 
   .buttons-check .btn4,
@@ -288,6 +278,12 @@
     .course {
       margin-bottom: 15px;
     }
+  }
+  .flex0-1{
+    width: 100%;
+  }
+  .upper-head{
+    display: none;
   }
 }
 
