@@ -17,7 +17,7 @@
   margin: 0px 15px;
 }
 .top-wrapper {
-  background-color: #3583cd;
+  background-color: var(--main-color);
   color: white;
 }
 .btn5 {
@@ -142,6 +142,7 @@
   background-color: rgb(243 244 246);
   color:rgb(31 41 55 );
   height: 2.5rem;
+  cursor:pointer;
   width: 2.5rem;
   font-weight: 500;
   border-radius: 0.375rem;
@@ -191,14 +192,22 @@
   bottom: 0px;
   position: sticky;
 }
+.logo {
+  .logo-first-word{
+    font-size: 25px;
+  }
+  .logo-second-word{
+    font-size: 23px;
+  }
+}
 .buttons-check .button {
   padding: 5px 10px;
-  border-radius: 11px;
+  border-radius: 0.375rem;
   font-size: 14px;
-  color: white;
   margin: 10px 10px;
   display: flex;
   align-items: center;
+  cursor:pointer;
 }
 .more-info {
   display: none;
@@ -223,14 +232,14 @@
   background-color: white;
 }
 .right-top-header {
-  background-color: #3583cd;
+  background-color: var(--main-color);
   color: white;
   align-items: center;
 }
 .top-buttons {
   margin: 0px;
   flex: 1;
-  background: var(--dark-purple-color);
+  background: var(--light-main-color);
   padding: 10px;
   text-align: center;
 }
@@ -257,7 +266,7 @@
 }
 
 .box {
-  background: #ddd;
+  background: white;
   color: black;
   margin-top: 12px;
   padding: 10px 12px;
@@ -268,7 +277,7 @@
   transition: all 0.25s ease;
 }
 .box-chosen {
-  background: #d5bbf7;
+  background: var(--light-purple-color);
   margin-top: 12px;
   padding: 10px 12px;
   display: flex;
@@ -279,7 +288,7 @@
   transition: all 0.25s ease;
 }
 .box:hover {
-  background: #d5bbf7;
+  background: var(--secondary-background-color);
 }
 
 .box-border {
@@ -323,7 +332,6 @@
 .mr-10 {
   margin-right: 10px;
 }
-.circles-index {
   .green{
     --tw-bg-opacity: 1;
     background-color: rgb(220 252 231 / var(--tw-bg-opacity, 1));
@@ -342,14 +350,8 @@
       background-color: rgb(254 240 138 )
     }
   }
-  
-}
 
 
-.green {
-  background-color: green;
-  color: white;
-}
 .grey {
   background-color: grey;
   color: white;
