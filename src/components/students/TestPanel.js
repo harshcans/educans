@@ -242,7 +242,7 @@ const TestPanel = ({ emailid }) => {
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
-    return `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+    return `${String(mins).padStart(2, "0")} : ${String(secs).padStart(2, "0")}`;
   };
 
   useEffect(() => {
@@ -314,9 +314,8 @@ const TestPanel = ({ emailid }) => {
 
   return (
     <>
-      <div className="container2 flex-column">
         <div className="top-wrapper flex">
-          <div className="flex w-100">
+          <div className="flex">
             <div className="logo flex" style={{ marginLeft: "37.5px" }}>
               <div className="logo-first-word">Grade</div>
               <div className="logo-second-word">Flow</div>
@@ -326,8 +325,12 @@ const TestPanel = ({ emailid }) => {
               <div className="testformat">{testData && testData.Format}</div>
             </div>
           </div>
-          <div className="ml-auto btn5">Submit</div>
+{timeLeft !== null && (
+            <p className="top-buttons ml-auto">{formatTime(timeLeft)} </p>
+          )}
+          <div className=" btn5" onClick={handleSubmit}>Submit</div>
         </div>
+      <div className="container flex">
         <div className="flex0-1 flex-column">
           <div className="container flex-nc">
             <div className="main-wrapper2">
@@ -531,20 +534,8 @@ const TestPanel = ({ emailid }) => {
             </div>
           </div>
         </div>
-      </div>
       <div className="row-right question-analysis">
-        <div className="flex right-top-header">
-          {timeLeft !== null && (
-            <p className="flex-1"> Time: {formatTime(timeLeft)} </p>
-          )}
-
-          <div onClick={handleSubmit} className="top-buttons pointer testname">
-            Submit
-          </div>
-          {/* <p>Total Time: {totalTime} seconds</p> */}
-        </div>
-        {/* <button onClick={handleSubmit} disabled={submitDisabled}>Submit</button> */}
-        {/* {testCompleted && <p>You have completed the test. You cannot take it again.</p>} */}
+       
         <div className="sectionnames">
           <div className="name-section">
             <span>Section 1 ~ Total Question</span>
@@ -596,7 +587,7 @@ const TestPanel = ({ emailid }) => {
           </div>
         </div>
       </div>
-      {/* <div>Remaining Time: {Math.floor(remainingTime / 60)}:{remainingTime % 60 < 10 ? `0${remainingTime % 60}` : remainingTime % 60}</div> */}
+      </div>
     </>
   );
 };

@@ -9,7 +9,7 @@
   font-weight: 400;
   height: 100vh;
   font-style: normal;
-  display: flex;
+  /* display: flex; */
 }
 .testname {
   font-size: 21px;
@@ -21,7 +21,14 @@
   color: white;
 }
 .btn5 {
-  display: none;
+  height: -webkit-fill-available;
+    background: var(--light-main-color);
+    padding: 10px 50px;
+    align-items: center;
+    display: flex;
+    cursor:pointer;
+    font-weight: bold;
+    font-size: 20px;
 }
 .row-center {
   display: flex;
@@ -88,6 +95,7 @@
 }
 .flex0-1 {
   height: 100%;
+  width:75%;
 }
 .flex-sb {
   display: flex;
@@ -96,6 +104,7 @@
 }
 .container {
   height: 100%;
+      background-color: #f2f2f2;
 }
 .top-wrapper2 {
   background-color: #3583cd;
@@ -227,8 +236,8 @@
   /* margin-left: auto !important; */
 }
 .question-analysis {
-  /* border: 1px solid grey; */
-  width: 30%;
+  width: 25%;
+  height:100%;
   background-color: white;
 }
 .right-top-header {
@@ -237,11 +246,12 @@
   align-items: center;
 }
 .top-buttons {
-  margin: 0px;
-  flex: 1;
-  background: var(--light-main-color);
-  padding: 10px;
-  text-align: center;
+ background: var(--light-purple-color);
+    color: var(--main-color);
+    border-radius: 0.3rem;
+    padding: 5px 12.5px;
+    margin-right: 15px;
+    font-size: 14px;
 }
 .sectionnames {
   padding: 20px;

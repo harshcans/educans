@@ -5,7 +5,7 @@ import Sidebar from "../Sidebar";
 
 function TestLibrary() {
   return (
-     <div className="flex ">
+    <div className="flex ">
       <Sidebar active={"button2"} venue={'student'} />
       <div className="main dashboard">
         <div className="header flex">
@@ -21,7 +21,7 @@ function TestLibrary() {
             >
               <Sidebar />
             </Popup>
-             <h3>Dashboard</h3>
+            <h3>Dashboard</h3>
           </div>
           <div className="row-left">
             <i className="fa-regular fa-bell" />
@@ -31,14 +31,14 @@ function TestLibrary() {
         </div>
         <div className="main-wrapper">
           <div className="flex">
-          <div className="search-box-test">
-            <input/>
+            <div className="search-box-test">
+              <input />
             </div>
             <button>My BookMarks</button>
           </div>
         </div>
-        </div>
-        </div>
+      </div>
+    </div>
   )
 }
 
