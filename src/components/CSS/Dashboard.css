@@ -43,8 +43,12 @@
      }
 
      ::-webkit-scrollbar-thumb {
-         background: transparent;
+         background: var(--normal-purple-color);
          border-radius: 5px;
+     }
+     .dashboard{
+        max-height:100vh;
+        overflow: scroll;
      }
 
        .dashboard{ 
