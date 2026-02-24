@@ -28,19 +28,10 @@ import QuestionManager from "./components/TestCreator/QuestionManager";
 import "./components/CSS/media.css";
 
 function App() {
-  React.useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      // Do something with 'user' if needed
-    });
-
-    return unsubscribe;
-  }, []);
 
   return (
     <Router>
       <div className="App">
-        {/* <Sidebar /> */}
-        {/* <div className='main'> */}
         <Routes>
           <Route path="/author/creation/new" element={<CreateTestMeta />} />
           <Route path="/author/creation" element={<TeacherDashboard />} />
