@@ -5,14 +5,12 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import { auth } from "./firebase";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Dashboard from "./components/students/Dashboard";
 import AdminDashboard from "./components/AdminDashboards";
 import TeacherDashboard from "./components/TestCreator/TeacherDashboard";
 import CreateTestMeta from "./components/TestCreator/CreateTestMeta";
-import TestMaking from "./components/TestCreator/TestMaking";
 import Happy from "./components/students/happy";
 import TestLibrary from "./components/students/TestLibrary";
 import "./components/CSS/index.css";
