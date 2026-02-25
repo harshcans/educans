@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Pdfextactai from "./Pdfextactai";
 import { firestore } from "../../firebase";
 import { useNavigate, useParams } from "react-router-dom";
 import Sidebar from "../Sidebar";
@@ -129,13 +128,7 @@ const QuestionManager = () => {
         </div>
         <div style={{ display: "flex" }}>
           <div className="main-wrapper">
-            {createdBy ? (
-              <div className="created-by-ai">
-                <InfoIcon /> This Test is Create by AI , pleease recheck all questions  </div>
-            ) : (
-
-              <Pdfextactai testId={testID} format={testDetails.Format}/>
-            )}
+            
             <nav className="flex">
               <h3>Questions : {questions?.totalQuestions || 0}</h3>
               {modalOpen && selectedQuestion && (
@@ -342,3 +335,4 @@ const QuestionManager = () => {
 };
 
 export default QuestionManager;
+
