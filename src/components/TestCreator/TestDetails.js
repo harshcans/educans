@@ -13,6 +13,7 @@ const TestDetails = ({ option }) => {
         { sectionNumber: 1, questionType: 'MCQs', totalQuestions: 20, optionalQuestions: 0 },
         { sectionNumber: 2, questionType: 'Integer Type', totalQuestions: 10, optionalQuestions: 5 }
       ];
+      break;
     default:
       totalMarks = 0;
       totalTime = '';
@@ -42,3 +43,4 @@ const TestDetails = ({ option }) => {
 };
 
 export default TestDetails;
+
