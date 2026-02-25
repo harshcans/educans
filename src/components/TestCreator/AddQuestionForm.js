@@ -4,7 +4,6 @@ import { supabase } from "../../supabase";
 import { useNavigate, useParams,useLocation } from "react-router-dom";
 import Sidebar from "../Sidebar";
 import "../CSS/CreateQuestionForm.css";
-import Pdfextactai from "./Pdfextactai";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 
@@ -381,3 +380,4 @@ const location = useLocation();
 }
 
 export default AddQuestionForm;
+
