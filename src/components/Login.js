@@ -23,7 +23,7 @@ const Login = ({ redirect }) => {
               // User is a teacher
               navigate("/author/creation");
             } else {
-              navigate(redirect || "/user/dashboard");
+              navigate(redirect || "/dashboard");
             }
           })
           .catch((error) => {
@@ -61,60 +61,46 @@ const Login = ({ redirect }) => {
   };
 
   return (
-    <div className="login">
-      <div className="header flex">
-        <div className="row-right">
-          <i className="fa-solid fa-bars" />
-          <h2>
-            {" "}
-            Edu<span className="text-primary">Grade.</span>
-          </h2>
-        </div>
-        <div className="row-left">
-          <i className="fa-regular fa-bell" />
-          <i className="fa-solid fa-gear" />
-          <i className="fa-regular fa-circle-user" />
-        </div>
-      </div>
-
+    <div className="login flex-column flex-center">
+    <div className="overlay flex-center">
       <div className="session">
-        <div className="left"></div>
+         <div className="logo-sidebar flex">
+        <div className="logo-first-word">Grade</div>
+        <div className="logo-second-word">Flow</div>
+      </div>
         <form onSubmit={handleLogin} className="log-in" autoComplete="off">
-          <h4>
-            We are Edu<span className="text-primary">Grade.</span>
-          </h4>
+          
           <p>Welcome back! Log in to your account:</p>
-          <div className="floating-label flex">
-            <div className="flex-center">
-              <i className="fa-regular fa-envelope i-big"></i>
-            </div>
+          <div className="flex-column" style={{width: "100%", gap: "10px" ,marginBottom: "20px"}}>
+            <label htmlFor="email" style={{size: "15px"}}>Email:</label>            
             <input
+
               placeholder="Email"
               type="email"
               name="email"
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              style={{size: "16px",height: "45px"}}
               required
+              className="input-card input-size-full"
             />
-            <label htmlFor="email">Email:</label>
           </div>
 
-          <div className="floating-label flex">
-            <div className="flex-center">
-              <i className="fa-solid fa-lock i-big"></i>
-            </div>
+                             <div className="flex-column" style={{width: "100%", gap: "10px" ,marginBottom: "20px"}}>
+                     <label htmlFor="password"  style={{size: "15px"}}> Password:</label>
             <input
               placeholder="Password"
               type="password"
               name="password"
               id="password"
               autoComplete="off"
+              className="input-card input-size-full"
+              style={{size: "16px",height: "45px"}}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-            <label htmlFor="password">Password:</label>
           </div>
 
           {error && <p style={{ color: "red" }}>{error}</p>}
@@ -124,6 +110,7 @@ const Login = ({ redirect }) => {
             Don't have an account? <Link to="/signup">Sign up</Link>
           </div>
         </form>
+      </div>
       </div>
     </div>
   );

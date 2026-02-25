@@ -61,7 +61,7 @@ useEffect(() => {
           </svg>
           Dashboard
         </button>
-        <Link to="/author/creation">
+        <Link to="/tests/library">
           <button className="button2" id="button2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -99,7 +99,7 @@ useEffect(() => {
             Test Library{" "}
           </button>
         </Link>
-        <Link to="/author/course">
+        <Link to="/course">
           <button className="button3" id="button3">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -361,7 +361,7 @@ useEffect(() => {
                 stroke-linejoin="round"
               />
             </svg>
-            Results
+            Responses
           </button>
         </Link>
         <Link to="/author/test">
