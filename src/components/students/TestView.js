@@ -5,7 +5,7 @@ import { firestore, auth } from "../../firebase";
 import Timer from "./tests";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
-import Login from "../Login";
+import AuthPopup from "./AuthPopup";
 import TestPanel from "./TestPanel";
 
 const TestView = () => {
@@ -102,11 +102,11 @@ const TestView = () => {
                 <b>I have read and understood the instructions given above</b>
               </label>
             </div>
-            <Popup trigger={<></>} modal nested open={notloggedin}>
-              {(close) => (
-                <div>
-                  <p className="flex-center">Please Log In to Attempt Test</p>
-                  <Login redirect={`/testpanel/${testID}`} />
+            <Popup trigger={<></>} modal open={notloggedin}>
+              {() => (
+                <div style={{borderLeft : "20px solid var(--light-main-color)" , borderRadius: '0.375rem'}}>
+                
+                  <AuthPopup />
                 </div>
               )}
             </Popup>

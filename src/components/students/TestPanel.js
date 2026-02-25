@@ -22,6 +22,11 @@ const TestPanel = ({ emailid }) => {
   const [questionsPerSubject, setQuestionsPerSubject] = useState(0); // To store perSubjectQues
   const [selectedSubjectName, setSelectedSubjectName] = useState(""); // Stores the name (e.g., 
   const [allQuestions, setAllQuestions] = useState([]);
+  const [showTrashIcon, setShowTrashIcon] = useState(true);
+  // State to trigger the shake animation on the trash icon
+  const [isShaking, setIsShaking] = useState(false);
+  // State to trigger the pop animation on the check icon
+  const [isPopping, setIsPopping] = useState(false);
   const timerRef = useRef(null);
   const buttonRef = useRef(null);
 
@@ -77,15 +82,16 @@ const TestPanel = ({ emailid }) => {
 
   useEffect(() => {
     if (selectedSubjectName && allQuestions.length > 0) {
+    setUpdateUI(false);
       const filtered = allQuestions.filter(
         (q) => q.subject === selectedSubjectName
       );
       setQuestions(filtered);
 
-      // Only reset to 0 if index was not manually set
-      // if (filtered.length > 0 && currentQuestionIndex >= filtered.length) {
-        setCurrentQuestionIndex(0);
-      // }
+      setCurrentQuestionIndex(0);
+
+    } else {
+    setUpdateUI(true);
     }
   }, [selectedSubjectName, allQuestions]);
 
@@ -177,6 +183,21 @@ const TestPanel = ({ emailid }) => {
   };
 
 
+    const handleClick = () => {
+    // Prevent multiple clicks while animation is running
+    if (!showTrashIcon && isPopping) return;
+
+    // Start shake animation on the trash icon
+    setIsShaking(true);
+
+    // After a short delay (matching shake duration), switch icons and start pop animation
+    setTimeout(() => {
+      setShowTrashIcon(false); // Switch to check icon
+      setIsShaking(false);    // Remove shake class immediately after switching
+      setIsPopping(true);     // Trigger pop animation on check icon
+    }, 300); // This delay should match the duration of the subtle-shake animation (0.3s)
+  };
+
   const handleSubmit = async () => {
     if (isSubmitting) return;
     setIsSubmitting(true);
@@ -213,7 +234,7 @@ const TestPanel = ({ emailid }) => {
   const handleMarkForReview = () => {
     const reviewKey = `${emailid}_${testID}_review_${currentQuestionIndex + 1}`;
     localStorage.setItem(reviewKey, "marked");
-    setUpdateUI((prev) => !prev); // re-render to reflect updated class
+     // re-render to reflect updated class
   };
 
   const handleClearResponse = () => {
@@ -314,22 +335,22 @@ const TestPanel = ({ emailid }) => {
 
   return (
     <>
-        <div className="top-wrapper flex">
-          <div className="flex">
-            <div className="logo flex" style={{ marginLeft: "37.5px" }}>
-              <div className="logo-first-word">Grade</div>
-              <div className="logo-second-word">Flow</div>
-            </div>
-            <div className="upper-head row-center w-100">
-              <div className="testname">{testData && testData.Name}</div>
-              <div className="testformat">{testData && testData.Format}</div>
-            </div>
+      <div className="top-wrapper flex">
+        <div className="flex w-100">
+          <div className="logo flex" style={{ marginLeft: "37.5px" }}>
+            <div className="logo-first-word">Grade</div>
+            <div className="logo-second-word">Flow</div>
           </div>
-{timeLeft !== null && (
-            <p className="top-buttons ml-auto">{formatTime(timeLeft)} </p>
-          )}
-          <div className=" btn5" onClick={handleSubmit}>Submit</div>
+          <div className="upper-head row-center w-100">
+            <div className="testname">{testData?.exists && testData.Name}</div>
+            <div className="testformat">{testData && testData.Format}</div>
+          </div>
         </div>
+        {timeLeft !== null && (
+          <p className="top-buttons ml-auto">{formatTime(timeLeft)} </p>
+        )}
+        <div className=" btn5" onClick={handleSubmit}>Submit</div>
+      </div>
       <div className="container flex">
         <div className="flex0-1 flex-column">
           <div className="container flex-nc">
@@ -429,7 +450,7 @@ const TestPanel = ({ emailid }) => {
                 </div>
               </div>
               <div className="questions-section">
-                {questions.length > 0 && (
+                {questions.length > 0 ? (
                   <div>
                     <div className="flex-sb">
                       <div className="question-number">
@@ -513,80 +534,132 @@ const TestPanel = ({ emailid }) => {
                       )}
                     </div>
                   </div>
-                )}
+                ) : (
+                  <div className="no-questions">
+                    No Question Found!! Please Ensure that you are at correct Test ID (<b>{testID}</b>). </div>)}
               </div>
             </div>
           </div>
           <div className="buttons-check">
             <div className="button yellow" onClick={handleMarkForReview}>
+             <p>
               Mark for Review
+             </p>
             </div>
             <div className="button red" onClick={handleClearResponse}>
+             <p>
               Clear Response
+             </p>
             </div>
             <div className="button indigo" style={{ marginLeft: "auto" }} onClick={handlePreviousQuestion}>
               <p>Previous Ques</p>
-              <i className="fa-solid fa-angle-left"></i>
+              <i >Prev</i>
+              {/* <?xml version="1.0" encoding="UTF-8"?> */}
+{/* <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="trash icon">
+  <defs>
+    <linearGradient id="bodyGrad" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#d7d5f9"/>
+      <stop offset="100%" stop-color="#e8e6fb"/>
+    </linearGradient>
+  </defs>
+
+  <!-- handle -->
+  <path d="M24 12 C24 8.8 40 8.8 40 12" fill="none" stroke="#4739b2" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- lid -->
+  <rect x="10" y="14" width="44" height="8" rx="4" ry="4" fill="#4739b2"/>
+
+  <!-- lid inner highlight -->
+  <rect x="13" y="16" width="38" height="4" rx="2" ry="2" fill="#5a49d2" opacity="0.15"/>
+
+  <!-- body -->
+  <rect x="12" y="22" width="40" height="35" rx="6" ry="6" fill="url(#bodyGrad)" stroke="#bdb8f3" stroke-width="1"/>
+
+  <!-- left slit -->
+  <rect x="26" y="28" width="4" height="20" rx="2" ry="2" fill="#6b57de"/>
+
+  <!-- right slit -->
+  <rect x="34" y="28" width="4" height="20" rx="2" ry="2" fill="#6b57de"/>
+</svg> */}
+
             </div>
+            <button className="animated-button button" onClick={handleClick} >
+        {/* Initial SVG (Trash Can) */}
+        <div className={`icon trash-icon ${showTrashIcon ? 'active' : ''} ${isShaking ? 'animate-shake' : ''}`}>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="64" height="64" color="#3730a3" fill="none">
+            <path d="M4 17.9808V9.70753C4 6.07416 4 4.25748 5.17157 3.12874C6.34315 2 8.22876 2 12 2C15.7712 2 17.6569 2 18.8284 3.12874C20 4.25748 20 6.07416 20 9.70753V17.9808C20 20.2867 20 21.4396 19.2272 21.8523C17.7305 22.6514 14.9232 19.9852 13.59 19.1824C12.8168 18.7168 12.4302 18.484 12 18.484C11.5698 18.484 11.1832 18.7168 10.41 19.1824C9.0768 19.9852 6.26947 22.6514 4.77285 21.8523C4 21.4396 4 20.2867 4 17.9808Z" stroke="#3730a3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M4 7H20" stroke="#3730a3" stroke-width="2"></path>
+          </svg>
+        </div>
+
+        {/* Success SVG (Checkmark inside trash can) */}
+        <div className={`icon check-icon ${!showTrashIcon ? 'active' : ''} ${isPopping ? 'animate-pop' : ''}`}>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="64" height="64" color="#3730a3" fill="none">
+            <path d="M4 17.9808V9.70753C4 6.07416 4 4.25748 5.17157 3.12874C6.34315 2 8.22876 2 12 2C15.7712 2 17.6569 2 18.8284 3.12874C20 4.25748 20 6.07416 20 9.70753V17.9808C20 20.2867 20 21.4396 19.2272 21.8523C17.7305 22.6514 14.9232 19.9852 13.59 19.1824C12.8168 18.7168 12.4302 18.484 12 18.484C11.5698 18.484 11.1832 18.7168 10.41 19.1824C9.0768 19.9852 6.26947 22.6514 4.77285 21.8523C4 21.4396 4 20.2867 4 17.9808Z" stroke="#3730a3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M10 13.7143C10 13.7143 11 14.2357 11.5 15C11.5 15 13 12 15 11" stroke="#3730a3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M4 7H20" stroke="#3730a3" stroke-width="2"></path>
+          </svg>
+       button  </div>
+      </button>
             <div className="button indigo" onClick={handleNextQuestion}>
               <p>Save and Next</p>
               <i className="fa-solid fa-angle-right"></i>
             </div>
           </div>
         </div>
-      <div className="row-right question-analysis">
-       
-        <div className="sectionnames">
-          <div className="name-section">
-            <span>Section 1 ~ Total Question</span>
-            <div className="circles-index">
-              {questions.map((ques, index) => {
-                const answers = JSON.parse(
-                  localStorage.getItem(`${emailid}_${testID}_answers`) || "{}"
-                );
-                const questionId = ques.id;
-                const isAnswered = answers.hasOwnProperty(questionId);
+        <div className="row-right question-analysis">
 
-                const reviewKey = `${emailid}_${testID}_review_${index + 1}`;
-                const isMarked = localStorage.getItem(reviewKey);
+          <div className="sectionnames">
+            <div className="name-section">
+              <span>Section 1 ~ Total Question</span>
+              <div className="circles-index">
+                {questions.map((ques, index) => {
+                  const answers = JSON.parse(
+                    localStorage.getItem(`${emailid}_${testID}_answers`) || "{}"
+                  );
+                  const questionId = ques.id;
+                  const isAnswered = answers.hasOwnProperty(questionId);
 
-                // New: Check if the question has been seen
-                const seenKey = `${emailid}_${testID}_seen_${index + 1}`;
-                const hasBeenSeen = localStorage.getItem(seenKey);
+                  const reviewKey = `${emailid}_${testID}_review_${index + 1}`;
+                  const isMarked = localStorage.getItem(reviewKey);
 
-                let circleClass = "circles";
+                  // New: Check if the question has been seen
+                  const seenKey = `${emailid}_${testID}_seen_${index + 1}`;
+                  const hasBeenSeen = localStorage.getItem(seenKey);
 
-                // Priority for active question
-                if (index === currentQuestionIndex) {
-                  circleClass += " indigo"; // Currently active question
-                } else if (isMarked) {
-                  circleClass += " yellow"; // Marked for review
-                } else if (isAnswered) {
-                  circleClass += " green"; // Answered
-                } else if (hasBeenSeen) {
-                  circleClass += " red"; // Seen but not answered
-                }
-                return (
-                  <div
-                    key={index}
-                    className={circleClass}
-                    onClick={() => {
-                      // When a question is clicked, mark it as seen
-                      localStorage.setItem(seenKey, "true");
-                      setCurrentQuestionIndex(index);
-                    }}
-                  >
-                    {index + 1}
-                  </div>
-                );
-              })}
+                  let circleClass = "circles";
+
+                  // Priority for active question
+                  if (index === currentQuestionIndex) {
+                    circleClass += " indigo"; // Currently active question
+                  } else if (isMarked) {
+                    circleClass += " yellow"; // Marked for review
+                  } else if (isAnswered) {
+                    circleClass += " green"; // Answered
+                  } else if (hasBeenSeen) {
+                    circleClass += " red"; // Seen but not answered
+                  }
+                  return (
+                    <div
+                      key={index}
+                      className={circleClass}
+                      onClick={() => {
+                        // When a question is clicked, mark it as seen
+                        localStorage.setItem(seenKey, "true");
+                        setCurrentQuestionIndex(index);
+                      }}
+                    >
+                      {index + 1}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            <div className="name-section">
+              <div>Section 2 ~ Total Question</div>
             </div>
           </div>
-          <div className="name-section">
-            <div>Section 2 ~ Total Question</div>
-          </div>
         </div>
-      </div>
       </div>
     </>
   );

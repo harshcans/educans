@@ -252,6 +252,7 @@
     padding: 5px 12.5px;
     margin-right: 15px;
     font-size: 14px;
+    min-width: fit-content;
 }
 .sectionnames {
   padding: 20px;
@@ -297,8 +298,9 @@
   cursor: pointer;
   transition: all 0.25s ease;
 }
-.box:hover {
+.box:hover ,.box-chosen:hover {
   background: var(--secondary-background-color);
+  box-shadow: none;
 }
 
 .box-border {
@@ -323,6 +325,9 @@
 .test-instruction h3,
 .test-instruction > div {
   padding-bottom: 10px;
+}
+.drop-zone-active{
+  background: blue;
 }
 .bottom {
   padding: 10px 20px;
@@ -378,4 +383,61 @@
   margin-right: 5px;
   padding: 6px;
   border-radius: 50%;
+}
+.upload-banner{
+     background-image: linear-gradient(to bottom right, #cd6685 5%, var(--tw-gradient-to) 80%);
+    --tw-gradient-to: var(--normal-purple-color);
+  color: #ffffff;
+  border-radius: 0.75rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  padding: 2rem 3rem;
+  width: 100%;
+  margin-bottom:20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition-property: transform;
+  transition-duration: 500ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+.drop-zone{
+  border: 2px dashed var(--main-color);
+    border-radius: 0.49rem;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 25px;
+    height: 75%;
+    background-color: var(--light-purple-color);
+    cursor: pointer;
+}
+.pdf-upload-btn{
+  display : block;
+  margin-left: auto;
+      background-image: linear-gradient(to bottom right, #cd6685 5%, var(--tw-gradient-to) 80%);
+    --tw-gradient-to: var(--normal-purple-color);
+    color: #ffffff;
+    width: 20%;
+    margin-top:25px;
+}
+.created-by-ai{
+  opacity:0.9;
+  font-size:15px;
+    padding: 10px 15px;
+    border-radius: 0 5px 5px 0;
+    margin-bottom: 10px;
+    gap:6px;
+    background: var(--light-purple-color);
+    border-left: 10px solid var(--normal-purple-color);
+    display:flex;
+    align-items:center;
+}
+.btn-left{
+  margin-left:auto;
+  display:block;
+  margin-top:10px;
 }
