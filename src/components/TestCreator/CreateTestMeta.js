@@ -113,7 +113,7 @@ const CreateTestMeta = ({closePopup }) => {
   return (
     <>
           <form className="form-container" onSubmit={handleSubmit}>
-            <h2 className="title flex">Enter the details to Create Test
+            <h2 className="modal-header flex" style={{margin: 0, gap:10}}>Enter the details to Create Test
           <i className="fa-regular fa-circle-xmark ml-auto" onClick={closePopup}></i> </h2>
 
             <div className="password-container">
@@ -130,7 +130,13 @@ const CreateTestMeta = ({closePopup }) => {
                   required
                 />
               </div>
-              <div className="input-container">
+             
+            </div>
+             <div className="password-container">
+              <label className="label" htmlFor="password">
+                Enter Test ID (optional)
+              </label>
+             <div className="input-container">
                 <input
                   className="input-card input-size-full"
                   type="text"
@@ -139,7 +145,7 @@ const CreateTestMeta = ({closePopup }) => {
                   onChange={(e) => setTestID(e.target.value)}
                 />
               </div>
-            </div>
+              </div>
             <div className="flex-column">
               <label className="label" htmlFor="password">
                 Select Exam Format
@@ -159,7 +165,7 @@ const CreateTestMeta = ({closePopup }) => {
             </div>
             {error && <p style={{ color: "red" }}>{error}</p>}
 
-            <div className="btn-controls">
+            <div className="btn-left">
               <button type="submit">Create &amp; Next</button>
             </div>
           </form>

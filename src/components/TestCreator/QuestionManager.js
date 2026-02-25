@@ -1,19 +1,32 @@
 import React, { useState, useEffect } from "react";
+import Pdfextactai from "./Pdfextactai";
 import { firestore } from "../../firebase";
 import { useNavigate, useParams } from "react-router-dom";
 import Sidebar from "../Sidebar";
 import "../CSS/CreateQuestionForm.css";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
+import { collection, doc, setDoc, getDoc } from "firebase/firestore";
+
 
 const QuestionManager = () => {
   const navigate = useNavigate();
-  const [questions, setQuestions] = useState([]);
+  const [questions, setQuestions] = useState({ questionsList: [], totalQuestions: 0, subjectsQues: [] });
   const { testID } = useParams();
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [selectedQuestion, setSelectedQuestion] = useState(null);
+  const [createdBy, setCreatedBy] = useState(false);
+  const [testDetails, setTestDetails] = useState({});
+
+  const InfoIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" color="#3730a3" fill="none">
+      <circle cx="12" cy="12" r="10" stroke="#141B34" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M12 16V11.5" stroke="#141B34" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M12 8.01172V8.00172" stroke="#141B34" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  )
 
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -28,15 +41,40 @@ const QuestionManager = () => {
           id: doc.id,
           ...doc.data(),
         }));
-        setQuestions(fetchedQuestions);
+        setQuestions({
+  questionsList: fetchedQuestions, // The array of questions
+  totalQuestions: snapshot.size,   // The total count of questions
+  subjectsQues : fetchedQuestions.reduce((acc, q) => {
+    acc[q.subject] = (acc[q.subject] || 0) + 1;
+    return acc;
+  }, {}),
+});
+
       } catch (error) {
         console.error("Error fetching questions:", error);
       } finally {
         setLoading(false);
       }
     };
+    const fetchTestDetails = async () => {
+      const firebaseData = doc(firestore, 'tests', testID);
+      const csnapshot = await getDoc(firebaseData);
+      if (csnapshot.exists()) {
+        const Data = csnapshot.data();
+        setTestDetails(Data);
+        if (Data && Data.createdBy === 'AI') {
+          console.log(Data.createdBy, 'if')
+          setCreatedBy(true);
+        } else {
+          console.log('false', Data)
+          setCreatedBy(false)
+        }
+      }
+    }
+
     fetchQuestions();
-  }, [testID]);
+    fetchTestDetails();
+  }, [testID ]);
 
   const deleteQuestion = async (qid) => {
     await firestore
@@ -45,7 +83,13 @@ const QuestionManager = () => {
       .collection("questions")
       .doc(qid)
       .delete();
-    setQuestions((prev) => prev.filter((q) => q.id !== qid));
+
+      setQuestions(prevData => ({
+          ...prevData,
+          questionsList: prevData.questionsList.filter(q => q.id !== qid),
+          totalQuestions: prevData.totalQuestions - 1 // Decrement total
+      }));
+    setModalOpen(false);
   };
 
   const PopupOpen = (questionData) => {
@@ -85,13 +129,20 @@ const QuestionManager = () => {
         </div>
         <div style={{ display: "flex" }}>
           <div className="main-wrapper">
-            <nav style={{ display: "flex" }}>
-              <h3>Questions :</h3>
+            {createdBy ? (
+              <div className="created-by-ai">
+                <InfoIcon /> This Test is Create by AI , pleease recheck all questions  </div>
+            ) : (
+
+              <Pdfextactai testId={testID} format={testDetails.Format}/>
+            )}
+            <nav className="flex">
+              <h3>Questions : {questions?.totalQuestions || 0}</h3>
               {modalOpen && selectedQuestion && (
                 <div className="modal">
                   {!deleteOpen ? (
                     <div className="modal-content">
-                      <h2 className="modal-header text-center">See Your Ques</h2>
+                      <h2 className="modal-header text-center">See Your Questions </h2>
                       <div className="question"><b>Ques :  &nbsp; </b> {selectedQuestion.question}</div>
                       {selectedQuestion.options.map((option, i) => (
                         <div key={i} className={selectedQuestion.correctOption + 1 === i ? "box-chosen" : "box"}>
@@ -99,14 +150,14 @@ const QuestionManager = () => {
                             type="radio"
                             name="radioGroup"
                             value={option}
-                          checked={selectedQuestion.correctOption + 1 === i}
+                            checked={selectedQuestion.correctOption + 1 === i}
                           />
                           <span className="yearly ">
                             &nbsp; {option}
                           </span>
                         </div>
                       ))}
-                      <button onClick={() => setModalOpen(false)}>Close</button>
+                      <button onClick={() => setModalOpen(false)} className="btn-left">Close</button>
                     </div>
                   ) : (
                     <div className="modal-content">
@@ -127,9 +178,27 @@ const QuestionManager = () => {
                 <option>Subject</option>
               </select>
             </nav>
-            {!loading ? (
+            {loading ? (
+                <div className="skeleton-ques-row">
+                <div className="skeleton-content-left">
+                  <div className="skeleton-index"></div>
+                  <div className="skeleton-subject-index"></div>
+                  <div className="skeleton-question-name"></div>
+                </div>
+                <div className="skeleton-actions-right">
+                  <div className="skeleton-icon"></div>
+                  <div className="skeleton-icon"></div>
+                  <div className="skeleton-icon"></div>
+                </div>
+              </div>
+            ) : questions?.questionsList?.length === 0 ? (
+  // 🔹 No Questions State
+  <div className="no-questions">
+    <h3>Start adding questions to view them here 🚀</h3>
+  </div>
+) : (
               <div className="question-container">
-                {questions.map((q, idx) => (
+                {questions.questionsList.map((q, idx) => (
                   <div className="ques-row">
                     <div
                       className="flex"
@@ -138,7 +207,9 @@ const QuestionManager = () => {
                         maxWidth: "605px",
                         gap: "20px",
                       }}
-                    >
+                    ><input type="checkbox" style={{
+    marginLeft: "13px"
+}}/>
                       <p className="index">{idx + 1}.</p>
 
                       <p className="subject-index">{q.subject}</p>
@@ -229,47 +300,30 @@ const QuestionManager = () => {
                   </div>
                 ))}
               </div>
-            ) : (
-              <div className="skeleton-ques-row">
-                <div className="skeleton-content-left">
-                  <div className="skeleton-index"></div>
-                  <div className="skeleton-subject-index"></div>
-                  <div className="skeleton-question-name"></div>
-                </div>
-                <div className="skeleton-actions-right">
-                  <div className="skeleton-icon"></div>
-                  <div className="skeleton-icon"></div>
-                  <div className="skeleton-icon"></div>
-                </div>
-              </div>
+          
+            
             )}
           </div>
           <div className="test-info">
             <h3>Test Information</h3>
             <div className="test-name">
               <p>Test Name:</p>
-              <p className="edit-disable">Sample</p>
+              <p className="edit-disable">{testDetails.Name}</p>
             </div>
             <div className="test-card">
-              <p><b>Total Questions : </b> 75</p>
-              <div className="flex ">
-                <p className="subject-index">25</p>
-                &nbsp;<p>&nbsp;Maths</p>
-              </div>
-              <div className="flex ">
-                <p className="subject-index">25</p>
-                &nbsp;<p>&nbsp;Chemistry</p>
-              </div>
-              <div className="flex ">
-                <p className="subject-index">25 </p>
-                &nbsp;<p>&nbsp;Physics</p>
-              </div>
+              <p><b>Total Questions : </b> {questions.totalQuestions} </p>
+              {Object.entries(questions.subjectsQues).map(([subject, count]) => (
+                <div className="flex" key={subject}>
+                  <p className="subject-index">{count}</p>
+                  &nbsp;<p>&nbsp;{subject}</p>
+                </div>
+              ))}
             </div>
             <div className="test-card">
               <p>Responses</p>
               <div className="flex ">
                 <p className="subject-index">5</p>
-                <p>Students</p>
+                <p> Students</p>
               </div>
             </div>
             <div className="edit-info">

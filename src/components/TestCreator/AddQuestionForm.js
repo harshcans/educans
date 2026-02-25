@@ -115,9 +115,9 @@ const location = useLocation();
         .collection("questions");
       const snapshot = await questionsRef.get();
       const questionCount = snapshot.size;
-      const newQuestionID = `question${questionCount + 1}`;
 
       const dataToSave = {
+        questionNumber: questionCount + 1,
         subject,
         section,
         question,
@@ -132,7 +132,7 @@ const location = useLocation();
         dataToSave.imageName = uploadedImageName;
       }
 
-      await questionsRef.doc(newQuestionID).set(dataToSave);
+      await questionsRef.doc().set(dataToSave);
 
       alert("Question added successfully!");
       navigate(`/author/creation/${testID}`);
@@ -164,7 +164,6 @@ const location = useLocation();
               <i className="fa-regular fa-circle-user" />
             </div>
           </div>
-          <Pdfextactai />
           <div className="main-wrapper">
             <form className="question-card" onSubmit={handleSubmit}>
               <div className="step-up flex">
