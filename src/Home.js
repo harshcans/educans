@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from "react-router-dom";
 import "./styles.css";
 
 const CapIcon = () => (
@@ -46,7 +47,7 @@ export default function App() {
   const [authModal, setAuthModal] = useState({ isOpen: false, mode: 'login', role: 'student' });
   const [currentUser, setCurrentUser] = useState(null);
 
-
+  const navigate = useNavigate();
 
   // Toast Notification
   const [toast, setToast] = useState({ show: false, message: '', type: 'info' });
@@ -140,15 +141,15 @@ export default function App() {
                 className="ed-btn ed-btn-secondary" 
                 onClick={() => { setCurrentUser(null); setCurrentView('landing'); }}
               >
-                Log Out
+                Dashboard
               </button>
             </div>
           ) : (
             <div style={{ display: 'flex', gap: '0.6rem' }}>
-              <button className="ed-btn ed-btn-secondary" onClick={() => openAuthModal('login', 'student')}>
+              <button className="ed-btn ed-btn-secondary" onClick={() => navigate('/login?selec=student')}>
                 Login
               </button>
-              <button className="ed-btn ed-btn-primary" onClick={() => openAuthModal('signup', 'student')}>
+              <button className="ed-btn ed-btn-primary" onClick={() => navigate('/signup')}>
                 Sign Up
               </button>
             </div>
@@ -177,15 +178,15 @@ export default function App() {
                 <button 
                   className="ed-btn ed-btn-primary" 
                   style={{ padding: '0.85rem 2rem', fontSize: '0.95rem', fontWeight: 700 }}
-                  onClick={() => openAuthModal('signup', 'student')}
+                  onClick={() => navigate('/signup')}
                 >
                   Sign Up
                 </button>
 
                 <button 
                   className="ed-btn ed-btn-secondary" 
-                  style={{ padding: '0.85rem 2rem', fontSize: '0.95rem' }}
-                  onClick={() => openAuthModal('login', 'student')}
+                  style={{ padding: '0.85rem 2rem', fontSize: '0.95rem',background:"white" }}
+                  onClick={() => navigate('/login')}
                 >
                   Login
                 </button>

@@ -159,7 +159,7 @@
     }
 
     .ed-btn-secondary {
-      background-color: var(--bg-surface);
+      background-color: var(--bg-surface) !important;
       color: var(--text-main);
       border-color: var(--border-color);
       box-shadow: var(--shadow-sm);
